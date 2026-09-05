@@ -95,6 +95,28 @@ button {
   outline-color: var(--color-oro-claro);
 }
 
+/* Enlace de salto al contenido: fuera de pantalla hasta que se lo enfoca
+   con el teclado, momento en el que baja a la vista. */
+.salto-al-contenido {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -110%);
+  z-index: 200;
+  padding: var(--espacio-2) var(--espacio-3);
+  background-color: var(--color-azul-900);
+  color: var(--color-blanco);
+  font-size: var(--texto-15);
+  text-decoration: none;
+  border-bottom-left-radius: var(--radio-chico);
+  border-bottom-right-radius: var(--radio-chico);
+  transition: transform var(--duracion-transicion) var(--easing-estandar);
+}
+
+.salto-al-contenido:focus-visible {
+  transform: translate(-50%, 0);
+}
+
 /* Texto solo para lectores de pantalla */
 .visualmente-oculto {
   position: absolute;

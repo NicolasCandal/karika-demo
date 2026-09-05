@@ -29,7 +29,9 @@
   /* Tinta derivada: jerarquía de texto sin inventar grises nuevos */
   --tinta: var(--color-azul-900);
   --tinta-suave: color-mix(in srgb, var(--color-azul-900) 68%, var(--color-bruma));
-  --tinta-tenue: color-mix(in srgb, var(--color-azul-900) 48%, var(--color-bruma));
+  /* 62% y no menos: por debajo, el rótulo vertical de sección (12px)
+     no llega al 4.5:1 que pide AA para texto chico. */
+  --tinta-tenue: color-mix(in srgb, var(--color-azul-900) 62%, var(--color-bruma));
   --tinta-clara: color-mix(in srgb, var(--color-blanco) 82%, transparent);
   --tinta-clara-tenue: color-mix(in srgb, var(--color-blanco) 60%, transparent);
 

@@ -75,7 +75,8 @@ const { id, rotulo, tono = 'claro', class: clase } = Astro.props;
   }
 
   .seccion--oscuro .seccion__rotulo {
-    color: color-mix(in srgb, var(--color-oro) 70%, transparent);
+    /* 88%: al 70% el rótulo quedaba en 4.2:1 sobre el azul, por debajo de AA. */
+    color: color-mix(in srgb, var(--color-oro) 88%, transparent);
   }
 
   /* Por debajo del breakpoint el riel mide 0: el rótulo se esconde en vez
