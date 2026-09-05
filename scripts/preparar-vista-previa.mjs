@@ -47,21 +47,11 @@ const fotoConVelo = await sharp(fotoRecortada)
   .composite([{ input: degradado, blend: 'over' }])
   .toBuffer();
 
-// El emblema es un PNG cuadrado y su fondo no coincide exactamente con el
-// del lienzo, así que sin recortarlo en círculo se ve el cuadrado.
+// El emblema ya viene circular y con transparencia desde
+// scripts/preparar-hero.mjs, así que solo hay que escalarlo.
 const LADO_EMBLEMA = 190;
 
-const mascaraCircular = Buffer.from(
-  `<svg width="${LADO_EMBLEMA}" height="${LADO_EMBLEMA}" xmlns="http://www.w3.org/2000/svg">
-     <circle cx="${LADO_EMBLEMA / 2}" cy="${LADO_EMBLEMA / 2}" r="${LADO_EMBLEMA / 2}" fill="white"/>
-   </svg>`,
-);
-
-const emblemaRedimensionado = await sharp(emblema)
-  .resize(LADO_EMBLEMA, LADO_EMBLEMA)
-  .composite([{ input: mascaraCircular, blend: 'dest-in' }])
-  .png()
-  .toBuffer();
+const emblemaRedimensionado = await sharp(emblema).resize(LADO_EMBLEMA, LADO_EMBLEMA).toBuffer();
 
 const salida = await sharp({
   create: { width: ANCHO, height: ALTO, channels: 3, background: AZUL },

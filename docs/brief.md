@@ -21,9 +21,11 @@ dice "distribution" — confirmar, ver pendientes).
 **Datos que deben aparecer:**
 
 - Lujo y exclusividad (se transmite con diseño, no con la palabra "lujo")
-- Garantía de hasta 5 años → **ver pendientes, este dato está en revisión**
 - Envíos a todo México
-- Ubicación
+- Venta al mayoreo desde 5 piezas
+
+~~Ubicación~~ se cayó: no hay local físico. ~~Garantía de hasta 5 años~~ también:
+venía calcada de la referencia de joyería y no aplica a productos que caducan.
 
 ---
 
@@ -184,14 +186,11 @@ página completa de una vez. Las secciones quedaron construidas con marcadores
 No inventar ninguno de estos. Si un componente los necesita, dejar el marcador
 y avisar.
 
-1. **Qué cubre la garantía de 5 años.** Las cremas y el protector solar tienen
-   caducidad (PAO de 6 a 24 meses), no garantía. Hay que aclarar si se refiere
-   a un aparato, a garantía de satisfacción, o a vida útil sin abrir. Poner
-   "garantía 5 años" sobre una crema resta credibilidad.
-   **Dato nuevo:** la frase aparece igual en Oro & Glow, la página de joyería
-   que el cliente pasó como referencia, donde sí tiene sentido. Es probable
-   que se haya heredado de ahí y no del negocio. Está fuera de la página
-   hasta que el cliente lo aclare.
+1. ~~Qué cubre la garantía de 5 años.~~ **Descartado.** El dato venía calcado
+   de Oro & Glow, la página de joyería que el cliente pasó como referencia,
+   donde una garantía de 5 años sí tiene sentido. Sobre cremas y protector
+   solar, que caducan (PAO de 6 a 24 meses), no la tiene y restaba
+   credibilidad. Queda fuera de la página y deja de ser un pendiente.
 2. Logo vectorial (SVG o AI). Hoy el emblema es un recorte del PNG del hero
    (`scripts/preparar-hero.mjs`), así que no escala.
 3. ~~Dirección exacta del local.~~ **Resuelto:** no hay local físico, trabajan

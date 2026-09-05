@@ -1,10 +1,14 @@
 ---
 // Emblema de Karika. Es el logo real del cliente, recortado del hero por
-// scripts/extraer-logo.mjs — no una marca inventada.
+// scripts/preparar-hero.mjs — no una marca inventada.
 //
-// PENDIENTE (docs/brief.md, pendiente 2): sigue faltando el vectorial.
-// Al ser un PNG recortado no escala más allá de su resolución nativa, y
-// por eso el loader ya no lo traza con stroke-dasharray.
+// Se guarda a resolución nativa (336px) con el círculo y la transparencia
+// ya horneados en el PNG, así que acá no hace falta enmascararlo.
+//
+// PENDIENTE (docs/brief.md, pendiente 2): el vectorial sigue faltando.
+// 336px cubre todos los usos actuales —el mayor es el loader, a 96 CSS px,
+// que en pantallas 3x pide 288—, pero no da para un uso grande: una
+// cabecera a sangre o material impreso necesitan el SVG del cliente.
 import { Image } from 'astro:assets';
 import emblema from '../../activos/imagenes/marca/logo-karika.png';
 
@@ -21,16 +25,14 @@ const { tamano = 44, class: clase, decorativo = false } = Astro.props;
   class:list={['logo', clase]}
   src={emblema}
   alt={decorativo ? '' : 'Karika Distribution'}
-  width={tamano * 2}
-  height={tamano * 2}
-  densities={[1, 2]}
-  quality={82}
-  style={`width:${tamano}px;height:${tamano}px`}
+  width={tamano}
+  height={tamano}
+  densities={[1, 2, 3]}
+  quality={86}
 />
 
 <style>
   .logo {
-    border-radius: 50%;
     flex-shrink: 0;
   }
 </style>

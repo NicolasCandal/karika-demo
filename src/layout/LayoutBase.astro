@@ -20,7 +20,9 @@ interface Props {
 }
 
 const { titulo, descripcion } = Astro.props;
-const logoLoader = await getImage({ src: emblema, width: 192, height: 192, format: 'webp' });
+// El loader lo muestra a 96 CSS px: 288 lo cubre hasta pantallas 3x y
+// sigue siendo una reducción sobre los 336 nativos del emblema.
+const logoLoader = await getImage({ src: emblema, width: 288, height: 288, format: 'webp' });
 ---
 
 <html lang="es-MX">
