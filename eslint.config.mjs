@@ -27,10 +27,17 @@ export default tseslint.config(
     },
   },
   {
-    // Los scripts de scripts/ corren en Node, no en el navegador.
-    files: ['scripts/**/*.mjs'],
+    // Los scripts de scripts/ y la config de Astro corren en Node, no en
+    // el navegador, así que sus globales no son los del DOM.
+    files: ['scripts/**/*.mjs', 'astro.config.mjs'],
     languageOptions: {
-      globals: { console: 'readonly', process: 'readonly' },
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        URL: 'readonly',
+        __dirname: 'readonly',
+      },
     },
   },
   {

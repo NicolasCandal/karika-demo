@@ -1,0 +1,44 @@
+---
+// Etiquetas de SEO y de vista previa al compartir el enlace.
+//
+// Importa más que en un sitio promedio: el tráfico de Karika llega de
+// Instagram y se comparte por WhatsApp, así que la tarjeta de vista
+// previa suele ser el primer contacto con la marca. Sin estas etiquetas
+// WhatsApp muestra el enlace pelado.
+//
+// La imagen sale de scripts/preparar-vista-previa.mjs y vive en public/
+// para tener una URL estable y sin hash, que es lo que necesitan los
+// rastreadores. Las URL van absolutas contra `site` (astro.config.mjs).
+interface Props {
+  titulo: string;
+  descripcion: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const vistaPrevia = new URL('/vista-previa.jpg', Astro.site);
+const textoAlternativoVistaPrevia =
+  'Emblema de Karika junto al protector solar Birch Juice, la mascarilla Madagascar Centella y la bruma 345 Relief sobre fondo azul marino';
+---
+
+<link rel="canonical" href={canonica} />
+<meta name="theme-color" content="#0a1a2f" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Karika" />
+<meta property="og:locale" content="es_MX" />
+<meta property="og:title" content={titulo} />
+<meta property="og:description" content={descripcion} />
+<meta property="og:url" content={canonica} />
+<meta property="og:image" content={vistaPrevia} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={textoAlternativoVistaPrevia} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={titulo} />
+<meta name="twitter:description" content={descripcion} />
+<meta name="twitter:image" content={vistaPrevia} />
+<meta name="twitter:image:alt" content={textoAlternativoVistaPrevia} />

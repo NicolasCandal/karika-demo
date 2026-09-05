@@ -7,6 +7,7 @@
 import { getImage } from 'astro:assets';
 import '../estilos/globales.css';
 import Encabezado from '../componentes/layout/Encabezado.astro';
+import MetaSeo from '../componentes/layout/MetaSeo.astro';
 import MenuMovil from '../componentes/layout/MenuMovil.astro';
 import PieDePagina from '../componentes/layout/PieDePagina.astro';
 import EntradaAlScroll from '../componentes/comunes/EntradaAlScroll.astro';
@@ -29,6 +30,8 @@ const logoLoader = await getImage({ src: emblema, width: 192, height: 192, forma
     <meta name="description" content={descripcion} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <MetaSeo titulo={titulo} descripcion={descripcion} />
 
     <!-- Las fuentes son self-hosted y bloquean el texto del hero: conviene
          pedirlas antes de que el CSS las descubra. -->
