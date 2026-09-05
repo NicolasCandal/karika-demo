@@ -117,7 +117,8 @@ además ayuda al SEO local.
 honeypot, validación del lado del servidor y límite de envíos. El resultado se
 comunica con el toaster.
 
-**Pie.** Redes, aviso de privacidad, razón social.
+**Pie.** Redes y, antes de publicar, aviso de privacidad y razón social. En la
+demo privada el pie lleva solo el emblema, Instagram y el año.
 
 ---
 
@@ -201,6 +202,11 @@ y avisar.
    fichas dicen "venta al mayoreo desde 5 piezas", además de "envíos dentro
    de la República" y "atención personalizada". Falta confirmar si además
    venden por unidad al público.
-7. Razón social y RFC para el pie de página.
+7. ~~Razón social y RFC para el pie de página.~~ **Fuera de alcance por ahora:**
+   mientras esto sea una demo privada para mostrarle al cliente no hacen falta,
+   y se retiraron del pie. Lo mismo el aviso de privacidad. Los dos vuelven a
+   ser obligatorios antes de publicar — el aviso, por la LFPDPPP mexicana. El
+   recordatorio quedó como comentario en
+   `src/componentes/layout/PieDePagina.astro`.
 8. ~~Material visual del Instagram.~~ **Resuelto en parte:** el cliente pasó
    la imagen del hero y cuatro fichas de producto.

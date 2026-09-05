@@ -1,7 +1,11 @@
 ---
-// Pie: emblema, Instagram y aviso de privacidad.
-// PENDIENTE (docs/brief.md, pendiente 7): razón social y RFC reales.
-// Ya no se lista una dirección: no hay local físico.
+// Pie: emblema, Instagram y línea legal.
+// No se lista dirección: no hay local físico.
+//
+// ANTES DE PUBLICAR (no aplica mientras esto sea una demo privada para
+// mostrarle al cliente): hay que sumar acá la razón social y el RFC, y el
+// aviso de privacidad, que es obligatorio por la LFPDPPP mexicana en
+// cuanto el sitio quede accesible al público.
 import Logo from '../marca/Logo.astro';
 import { enlaceInstagram, usuarioInstagram } from '../../datos/navegacion.js';
 
@@ -30,10 +34,7 @@ const anio = new Date().getFullYear();
   </div>
 
   <div class="pie__legal">
-    <p>PENDIENTE: razón social y RFC (docs/brief.md, pendiente 7)</p>
-    <p>
-      Aviso de privacidad — PENDIENTE: texto conforme a la LFPDPPP. © {anio} Karika
-    </p>
+    <p>© {anio} Karika</p>
   </div>
 </footer>
 
