@@ -11,7 +11,9 @@ export function GET() {
   // Sin línea de Sitemap: es una sola página y no hay sitemap generado.
   const cuerpo = permitirIndexacion
     ? ['User-agent: *', 'Allow: /']
-    : ['# Demo privada: todavía no queremos que se indexe.', 'User-agent: *', 'Disallow: /'];
+    : // El comentario lo lee cualquiera que abra /robots.txt, así que va
+      // neutro y no como nota interna.
+      ['# Sitio en preparación.', 'User-agent: *', 'Disallow: /'];
 
   return new Response(`${cuerpo.join('\n')}\n`, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
