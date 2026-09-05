@@ -1,31 +1,60 @@
-// Catálogo. Nombres confirmados por el cliente a partir de la referencia
-// visual en docs/referencia-mood-hero.png (distribuyen estas líneas
-// coreanas de skincare, no producto propio).
-// PENDIENTE (docs/brief.md, pendiente 4): precio y moneda de cada producto,
-// y si la venta es a público, a mayoreo o ambos. No inventar un precio.
-// PENDIENTE: fotografía de producto real — no hay recorte individual
-// utilizable de la imagen de referencia (trae texto y logo quemados).
+// Catálogo. Marcas, nombres, presentaciones y descripciones tomados de
+// las fichas de producto que envió el cliente
+// (src/activos/imagenes/productos/). Nada de esto está inventado.
+//
+// PENDIENTE (docs/brief.md, pendiente 4): precio y moneda. Las fichas
+// dicen "venta al mayoreo desde 5 piezas" pero no traen importe, así que
+// la tarjeta remite a consultar por WhatsApp en lugar de mostrar un
+// número inventado.
+//
+// Nota sobre las imágenes: son las fichas de Instagram, con el copy
+// quemado en los píxeles. Sirven, pero un recorte limpio del envase se
+// leería mejor en la tarjeta del carrusel.
+
+import brumaDrAlthea from '../activos/imagenes/productos/dr-althea-345-relief-cream-mist.jpg';
+import protectorRoundLab from '../activos/imagenes/productos/round-lab-birch-juice-sun-cream.jpg';
+import mascarillaSkin1004 from '../activos/imagenes/productos/skin1004-centella-clay-stick-mask.jpg';
+import serumSkin1004 from '../activos/imagenes/productos/skin1004-centella-hyalu-cica-sun-serum.jpg';
 
 export const listaProductos = [
   {
-    id: 'birch-juice-crema-solar',
-    marca: 'SKIN1004',
+    id: 'round-lab-birch-juice-sun-cream',
+    marca: 'Round Lab',
     nombre: 'Birch Juice Moisturizing Sun Cream SPF50+ PA++++',
-    descripcion: 'Hidrata, protege y calma.',
+    presentacion: '50 ml',
+    descripcion:
+      'Protector solar hidratante que protege contra los rayos UV mientras repone y retiene la humedad en la piel.',
+    imagen: protectorRoundLab,
     precio: null,
   },
   {
-    id: 'madagascar-centella-mascarilla',
+    id: 'skin1004-centella-hyalu-cica-sun-serum',
+    marca: 'SKIN1004',
+    nombre: 'Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++',
+    presentacion: '50 ml',
+    descripcion:
+      'Protector solar ligero e hidratante que protege tu piel de los rayos UV mientras la calma e hidrata.',
+    imagen: serumSkin1004,
+    precio: null,
+  },
+  {
+    id: 'skin1004-centella-clay-stick-mask',
     marca: 'SKIN1004',
     nombre: 'Madagascar Centella Poremizing Quick Clay Stick Mask',
-    descripcion: 'Mascarilla en barra de arcilla con centella de Madagascar.',
+    presentacion: '27 g',
+    descripcion:
+      'Mascarilla en barra con arcilla que limpia profundamente los poros, controla el exceso de grasa y deja la piel suave y fresca al instante.',
+    imagen: mascarillaSkin1004,
     precio: null,
   },
   {
-    id: 'dr-althea-345-relief-mist',
+    id: 'dr-althea-345-relief-cream-mist',
     marca: 'Dr. Althea',
     nombre: '345 Relief Cream Mist',
-    descripcion: 'Bruma hidratante y calmante para todo tipo de piel.',
+    presentacion: '60 ml',
+    descripcion:
+      'Bruma facial hidratante y calmante que refresca la piel al instante, aporta hidratación profunda y ayuda a fortalecer la barrera cutánea.',
+    imagen: brumaDrAlthea,
     precio: null,
   },
 ];

@@ -180,9 +180,15 @@ y avisar.
    "garantía 5 años" sobre una crema resta credibilidad.
 2. Logo vectorial (SVG o AI). El loader depende de esto.
 3. Dirección exacta del local.
-4. Catálogo: nombres, descripciones, si llevan precio y en qué moneda.
+4. Catálogo: ~~nombres, descripciones~~, si llevan precio y en qué moneda.
+   **Parcialmente resuelto:** las fichas del cliente
+   (`src/activos/imagenes/productos/`) dan marca, nombre, presentación y
+   descripción de cuatro productos. Sigue faltando el precio y la moneda.
 5. Número de WhatsApp Business y correo.
-6. Si venden al público, al mayoreo, o ambos.
+6. ~~Si venden al público, al mayoreo, o ambos.~~ **Resuelto:** las cuatro
+   fichas dicen "venta al mayoreo desde 5 piezas", además de "envíos dentro
+   de la República" y "atención personalizada". Falta confirmar si además
+   venden por unidad al público.
 7. Razón social y RFC para el pie de página.
-8. Material visual del Instagram (Instagram bloquea el acceso automatizado, no
-   se pudo revisar el feed).
+8. ~~Material visual del Instagram.~~ **Resuelto en parte:** el cliente pasó
+   la imagen del hero y cuatro fichas de producto.

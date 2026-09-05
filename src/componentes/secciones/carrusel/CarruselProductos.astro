@@ -4,8 +4,10 @@
 // brief lo deja para cuando se migre a Embla si hace falta loop/autoplay.
 // El único JS es el de esta página: mover el scroll con los botones y
 // anunciar el producto visible por aria-live.
-// PENDIENTE: fotografía real de cada producto (docs/brief.md, pendiente 4)
-// — hoy se muestra un bloque de color con el nombre en su lugar.
+// Las imágenes son las fichas que envió el cliente: traen el texto
+// quemado, así que el alt lo reproduce (WCAG 1.1.1) y la tarjeta repite
+// nombre y descripción como texto real debajo.
+import { Picture } from 'astro:assets';
 import Contenedor from '../../comunes/Contenedor.astro';
 import Titulo from '../../comunes/Titulo.astro';
 import { listaProductos } from '../../../datos/productos.js';
@@ -40,10 +42,20 @@ import { listaProductos } from '../../../datos/productos.js';
       {
         listaProductos.map((producto) => (
           <li class="carrusel__item" data-carrusel-item data-nombre={producto.nombre}>
-            <div class="carrusel__imagen-pendiente" aria-hidden="true">
-              PENDIENTE: foto
-            </div>
-            <p class="carrusel__marca">{producto.marca}</p>
+            <Picture
+              class="carrusel__imagen"
+              src={producto.imagen}
+              alt={`Ficha de ${producto.marca} ${producto.nombre}, ${producto.presentacion}. ${producto.descripcion}`}
+              widths={[320, 640, 960]}
+              sizes="(min-width: 48rem) 20rem, 80vw"
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              quality={72}
+              loading="lazy"
+            />
+            <p class="carrusel__marca">
+              {producto.marca} · {producto.presentacion}
+            </p>
             <h3 class="carrusel__nombre">{producto.nombre}</h3>
             <p class="carrusel__descripcion">{producto.descripcion}</p>
             <p class="carrusel__precio">{producto.precio ?? 'Precio: consultar por WhatsApp'}</p>
@@ -144,16 +156,13 @@ import { listaProductos } from '../../../datos/productos.js';
     gap: var(--espacio-1);
   }
 
-  .carrusel__imagen-pendiente {
-    height: 12rem;
+  .carrusel__imagen {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
     border-radius: var(--radio-chico);
-    background: linear-gradient(160deg, var(--color-agua-400), var(--color-agua-800));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-blanco);
-    font-size: var(--texto-chico);
-    text-transform: none;
+    background-color: var(--color-bruma);
   }
 
   .carrusel__marca {
