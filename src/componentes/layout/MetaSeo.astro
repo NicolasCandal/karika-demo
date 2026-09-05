@@ -16,11 +16,19 @@ interface Props {
 
 const { titulo, descripcion } = Astro.props;
 
+// Mientras esto sea una demo privada no queremos que Google la levante:
+// si se indexa antes de tiempo, después cuesta sacarla. Se invierte al
+// publicar de verdad, con PERMITIR_INDEXACION=true en el entorno.
+// El mismo valor gobierna /robots.txt.
+const permitirIndexacion = process.env.PERMITIR_INDEXACION === 'true';
+
 const canonica = new URL(Astro.url.pathname, Astro.site);
 const vistaPrevia = new URL('/vista-previa.jpg', Astro.site);
 const textoAlternativoVistaPrevia =
   'Emblema de Karika junto al protector solar Birch Juice, la mascarilla Madagascar Centella y la bruma 345 Relief sobre fondo azul marino';
 ---
+
+{!permitirIndexacion && <meta name="robots" content="noindex, nofollow" />}
 
 <link rel="canonical" href={canonica} />
 <meta name="theme-color" content="#0a1a2f" />
