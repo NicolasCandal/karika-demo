@@ -1,0 +1,25 @@
+---
+// PENDIENTE (docs/brief.md, pendiente 2): logo vectorial real del
+// cliente. Esto es un monograma geométrico provisorio solo para que el
+// loader tenga algo que trazar — reemplazar el <path> por el logo real
+// en cuanto llegue el SVG/AI.
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id = 'logo-karika', class: clase } = Astro.props;
+---
+
+<svg
+  id={id}
+  class={clase}
+  viewBox="0 0 100 100"
+  role="img"
+  aria-label="Karika"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle class="logo-trazo" cx="50" cy="50" r="42" fill="none" stroke-width="3"></circle>
+  <path class="logo-trazo" d="M35 28 V72 M35 50 L65 28 M35 50 L65 72" fill="none" stroke-width="3"
+  ></path>
+</svg>

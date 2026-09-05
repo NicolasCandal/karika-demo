@@ -1,0 +1,89 @@
+---
+// PENDIENTE (docs/brief.md, sección 6): foto real de producto, 2560px,
+// recortes 16:9 y 4:5, sin texto quemado. docs/referencia-mood-hero.png
+// no sirve como asset final (trae logo y copy incrustados, y su
+// resolución de 1536px queda corta) — se usa acá un fondo CSS que sigue
+// el concepto "luz atravesando agua" hasta tener la foto definitiva.
+// El CTA primario apunta a #contacto en lugar de wa.me: falta el número
+// de WhatsApp (pendiente 5).
+import Boton from '../../comunes/Boton.astro';
+import Contenedor from '../../comunes/Contenedor.astro';
+---
+
+<section id="inicio" class="hero">
+  <Contenedor etiqueta="div">
+    <div class="hero__contenido">
+      <p class="hero__bajada-superior">Dermocosmética con distribución en México</p>
+      <h1 class="hero__titular">Piel que se nota, cuidado que se elige.</h1>
+      <p class="hero__bajada">
+        Catálogo seleccionado de skincare coreano, con envíos a todo México.
+      </p>
+      <div class="hero__acciones">
+        <Boton href="#contacto">Escribir por WhatsApp</Boton>
+        <Boton href="#productos" variante="secundario">Ver catálogo</Boton>
+      </div>
+    </div>
+  </Contenedor>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    background:
+      radial-gradient(
+        120% 120% at 15% 20%,
+        color-mix(in srgb, var(--color-agua-400) 35%, transparent),
+        transparent 60%
+      ),
+      linear-gradient(
+        160deg,
+        var(--color-azul-900),
+        color-mix(in srgb, var(--color-agua-800) 55%, var(--color-azul-900))
+      );
+    color: var(--color-blanco);
+  }
+
+  .hero__contenido {
+    max-width: 34rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-3);
+  }
+
+  .hero__bajada-superior {
+    font-size: var(--texto-chico);
+    letter-spacing: 0.02em;
+    color: var(--color-agua-400);
+  }
+
+  .hero__titular {
+    font-family: var(--fuente-display);
+    font-size: var(--texto-display-1);
+    line-height: 1.1;
+  }
+
+  .hero__bajada {
+    font-size: var(--texto-cuerpo-grande);
+    color: color-mix(in srgb, var(--color-blanco) 88%, transparent);
+    max-width: 30ch;
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-2);
+    margin-top: var(--espacio-2);
+  }
+
+  .hero__acciones :global(.boton--secundario) {
+    color: var(--color-blanco);
+    border-color: color-mix(in srgb, var(--color-blanco) 60%, transparent);
+  }
+
+  .hero__acciones :global(.boton--secundario:hover) {
+    background-color: color-mix(in srgb, var(--color-blanco) 12%, transparent);
+  }
+</style>

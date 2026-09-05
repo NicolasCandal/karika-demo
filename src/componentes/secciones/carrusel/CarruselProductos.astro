@@ -1,0 +1,179 @@
+---
+// Carrusel con CSS scroll-snap puro: cero framework de cliente, inercia
+// nativa en móvil (docs/brief.md, sección 4). Sin autoplay todavía — el
+// brief lo deja para cuando se migre a Embla si hace falta loop/autoplay.
+// El único JS es el de esta página: mover el scroll con los botones y
+// anunciar el producto visible por aria-live.
+// PENDIENTE: fotografía real de cada producto (docs/brief.md, pendiente 4)
+// — hoy se muestra un bloque de color con el nombre en su lugar.
+import Contenedor from '../../comunes/Contenedor.astro';
+import Titulo from '../../comunes/Titulo.astro';
+import { listaProductos } from '../../../datos/productos.js';
+---
+
+<section id="productos" class="carrusel">
+  <Contenedor etiqueta="div">
+    <Titulo nivel={2}>Catálogo</Titulo>
+
+    <div class="carrusel__controles">
+      <button
+        type="button"
+        class="carrusel__boton"
+        data-carrusel-anterior
+        aria-label="Producto anterior"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        class="carrusel__boton"
+        data-carrusel-siguiente
+        aria-label="Producto siguiente"
+      >
+        ›
+      </button>
+    </div>
+
+    <p class="visualmente-oculto" aria-live="polite" data-carrusel-anuncio></p>
+
+    <ul class="carrusel__lista" tabindex="0" aria-label="Lista de productos" data-carrusel-lista>
+      {
+        listaProductos.map((producto) => (
+          <li class="carrusel__item" data-carrusel-item data-nombre={producto.nombre}>
+            <div class="carrusel__imagen-pendiente" aria-hidden="true">
+              PENDIENTE: foto
+            </div>
+            <p class="carrusel__marca">{producto.marca}</p>
+            <h3 class="carrusel__nombre">{producto.nombre}</h3>
+            <p class="carrusel__descripcion">{producto.descripcion}</p>
+            <p class="carrusel__precio">{producto.precio ?? 'Precio: consultar por WhatsApp'}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Contenedor>
+</section>
+
+<script>
+  const lista = document.querySelector<HTMLUListElement>('[data-carrusel-lista]');
+  const botonAnterior = document.querySelector<HTMLButtonElement>('[data-carrusel-anterior]');
+  const botonSiguiente = document.querySelector<HTMLButtonElement>('[data-carrusel-siguiente]');
+  const anuncio = document.querySelector<HTMLElement>('[data-carrusel-anuncio]');
+
+  if (lista && botonAnterior && botonSiguiente) {
+    const desplazar = (direccion: 1 | -1) => {
+      const item = lista.querySelector<HTMLElement>('[data-carrusel-item]');
+      const ancho = item ? item.getBoundingClientRect().width + 16 : lista.clientWidth;
+      lista.scrollBy({ left: ancho * direccion, behavior: 'smooth' });
+    };
+
+    botonAnterior.addEventListener('click', () => desplazar(-1));
+    botonSiguiente.addEventListener('click', () => desplazar(1));
+  }
+
+  if (lista && anuncio) {
+    const items = lista.querySelectorAll<HTMLElement>('[data-carrusel-item]');
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        const visible = entradas.find((entrada) => entrada.isIntersecting);
+        if (visible) {
+          anuncio.textContent = `Mostrando ${visible.target.getAttribute('data-nombre')}`;
+        }
+      },
+      { root: lista, threshold: 0.6 },
+    );
+
+    items.forEach((item) => observador.observe(item));
+  }
+</script>
+
+<style>
+  .carrusel {
+    padding-block: var(--espacio-7);
+  }
+
+  .carrusel__controles {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--espacio-1);
+    margin-top: var(--espacio-3);
+  }
+
+  .carrusel__boton {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-azul-900);
+    background: var(--color-blanco);
+    font-size: var(--texto-cuerpo-grande);
+    cursor: pointer;
+  }
+
+  .carrusel__boton:hover {
+    background-color: var(--color-agua-400);
+  }
+
+  .visualmente-oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .carrusel__lista {
+    display: flex;
+    gap: var(--espacio-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+    margin: var(--espacio-2) 0 0;
+    padding: 0 0 var(--espacio-2);
+  }
+
+  .carrusel__item {
+    scroll-snap-align: start;
+    flex: 0 0 min(80%, 20rem);
+    background-color: var(--color-blanco);
+    border-radius: var(--radio-medio);
+    box-shadow: var(--sombra-baja);
+    padding: var(--espacio-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-1);
+  }
+
+  .carrusel__imagen-pendiente {
+    height: 12rem;
+    border-radius: var(--radio-chico);
+    background: linear-gradient(160deg, var(--color-agua-400), var(--color-agua-800));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-blanco);
+    font-size: var(--texto-chico);
+    text-transform: none;
+  }
+
+  .carrusel__marca {
+    font-size: var(--texto-chico);
+    color: var(--color-agua-800);
+  }
+
+  .carrusel__nombre {
+    font-family: var(--fuente-cuerpo);
+    font-size: var(--texto-cuerpo-grande);
+    font-weight: 700;
+  }
+
+  .carrusel__descripcion {
+    font-size: var(--texto-chico);
+    color: color-mix(in srgb, var(--color-azul-900) 75%, transparent);
+  }
+
+  .carrusel__precio {
+    margin-top: auto;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+// Dirección + mapa (docs/brief.md, sección 4). PENDIENTE (pendiente 3):
+// dirección exacta del local. El JSON-LD de schema.org/LocalBusiness solo
+// incluye los campos confirmados (nombre, sitio, Instagram) — no se
+// inventa una dirección/geo falsa dentro del structured data, eso
+// contaminaría lo que ve un buscador.
+import Contenedor from '../../comunes/Contenedor.astro';
+import Titulo from '../../comunes/Titulo.astro';
+import { enlaceInstagram } from '../../../datos/navegacion.js';
+
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Karika',
+  sameAs: [enlaceInstagram],
+  // PENDIENTE: address, geo y telephone en cuanto se confirmen.
+};
+---
+
+<section id="ubicacion" class="ubicacion">
+  <Contenedor etiqueta="div">
+    <Titulo nivel={2}>Ubicación</Titulo>
+    <p class="ubicacion__texto">
+      PENDIENTE: dirección exacta del local (docs/brief.md, pendiente 3). En cuanto se confirme,
+      esta sección suma el mapa embebido.
+    </p>
+  </Contenedor>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} />
+
+<style>
+  .ubicacion {
+    padding-block: var(--espacio-7);
+  }
+
+  .ubicacion__texto {
+    margin-top: var(--espacio-3);
+    max-width: 40rem;
+    color: color-mix(in srgb, var(--color-azul-900) 85%, transparent);
+  }
+</style>

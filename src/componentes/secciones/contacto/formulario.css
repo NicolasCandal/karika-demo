@@ -1,0 +1,97 @@
+/* Estilos de Formulario.jsx. Depende de src/estilos/tokens.css. */
+
+.acciones-rapidas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-4);
+}
+
+.acciones-rapidas__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: var(--radio-chico);
+  background-color: var(--color-agua-800);
+  color: var(--color-blanco);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.acciones-rapidas__whatsapp[aria-disabled='true'] {
+  background-color: color-mix(in srgb, var(--color-agua-800) 45%, var(--color-bruma));
+  cursor: not-allowed;
+}
+
+.acciones-rapidas__nota {
+  font-weight: 400;
+  font-size: var(--texto-chico);
+}
+
+.acciones-rapidas__telefono {
+  border: 1px solid var(--color-azul-900);
+  border-radius: var(--radio-chico);
+  background: none;
+  padding: var(--espacio-2) var(--espacio-3);
+  cursor: pointer;
+}
+
+.acciones-rapidas__telefono:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.formulario {
+  display: grid;
+  gap: var(--espacio-3);
+  max-width: 32rem;
+}
+
+.formulario__campo {
+  display: grid;
+  gap: var(--espacio-1);
+  margin: 0;
+}
+
+.formulario__campo label {
+  font-size: var(--texto-chico);
+  font-weight: 600;
+}
+
+.formulario__campo input,
+.formulario__campo textarea {
+  border: 1px solid color-mix(in srgb, var(--color-azul-900) 35%, transparent);
+  border-radius: var(--radio-chico);
+  padding: var(--espacio-2);
+  font: inherit;
+  background-color: var(--color-blanco);
+}
+
+.formulario__campo--trampa {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.formulario__error {
+  color: var(--color-error);
+  font-size: var(--texto-chico);
+}
+
+.formulario__enviar {
+  justify-self: start;
+  padding: var(--espacio-2) var(--espacio-4);
+  border-radius: var(--radio-chico);
+  border: none;
+  background-color: var(--color-azul-900);
+  color: var(--color-blanco);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.formulario__enviar:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}

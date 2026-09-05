@@ -19,6 +19,14 @@ export default tseslint.config(
     },
   },
   {
+    // El frontmatter de .astro es TypeScript: los tipos globales del DOM
+    // (HTMLElementTagNameMap, etc.) los valida `astro check`, no ESLint.
+    files: ['**/*.astro'],
+    rules: {
+      'no-undef': 'off',
+    },
+  },
+  {
     ignores: ['dist/', '.astro/', 'node_modules/'],
   },
   prettier,

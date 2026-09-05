@@ -1,0 +1,43 @@
+---
+// Placeholder para datos asíncronos. La landing casi no los tiene hoy
+// (docs/brief.md, sección 5) — queda listo para cuando el catálogo venga
+// de una API. Las imágenes usan blur-up, no este componente.
+interface Props {
+  ancho?: string;
+  alto?: string;
+}
+
+const { ancho = '100%', alto = '1rem' } = Astro.props;
+---
+
+<span class="skeleton" style={{ width: ancho, height: alto }} aria-hidden="true"></span>
+
+<style>
+  .skeleton {
+    display: block;
+    border-radius: var(--radio-chico);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-agua-400) 20%, var(--color-bruma)) 25%,
+      color-mix(in srgb, var(--color-agua-400) 35%, var(--color-bruma)) 50%,
+      color-mix(in srgb, var(--color-agua-400) 20%, var(--color-bruma)) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-brillo 1.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton {
+      animation: none;
+    }
+  }
+
+  @keyframes skeleton-brillo {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+</style>

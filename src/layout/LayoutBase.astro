@@ -1,0 +1,36 @@
+---
+// Layout de página única. `layout/` conserva su nombre en inglés por
+// excepción explícita de CLAUDE.md.
+import '../estilos/globales.css';
+import Encabezado from '../componentes/layout/Encabezado.astro';
+import MenuMovil from '../componentes/layout/MenuMovil.astro';
+import PieDePagina from '../componentes/layout/PieDePagina.astro';
+import { CargadorMarca } from '../componentes/marca/CargadorMarca.jsx';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+---
+
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={descripcion} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{titulo}</title>
+  </head>
+  <body>
+    <CargadorMarca client:load />
+    <Encabezado />
+    <MenuMovil />
+    <main>
+      <slot />
+    </main>
+    <PieDePagina />
+  </body>
+</html>

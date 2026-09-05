@@ -1,0 +1,29 @@
+/* Estilos del Toast. Depende de src/estilos/tokens.css (variables globales). */
+
+.toast-contenedor {
+  position: fixed;
+  bottom: var(--espacio-3);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  z-index: 100;
+  padding-inline: var(--espacio-2);
+  width: min(90vw, 24rem);
+}
+
+.toast {
+  margin: 0;
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: var(--radio-medio);
+  background-color: var(--color-azul-900);
+  color: var(--color-blanco);
+  box-shadow: var(--sombra-media);
+  font-size: var(--texto-cuerpo);
+  text-align: center;
+}
+
+.toast--error {
+  background-color: var(--color-error);
+}

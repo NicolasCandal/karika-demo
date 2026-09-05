@@ -1,0 +1,32 @@
+---
+// Qué es la marca en tres frases, alineado a la izquierda (docs/brief.md,
+// sección 4). Karika distribuye skincare coreano en México — dato
+// confirmado por el cliente sobre la imagen de referencia, no inventado.
+import Contenedor from '../../comunes/Contenedor.astro';
+import Titulo from '../../comunes/Titulo.astro';
+---
+
+<section class="propuesta">
+  <Contenedor etiqueta="div">
+    <Titulo nivel={2}>Distribución de skincare coreano en México</Titulo>
+    <div class="propuesta__texto">
+      <p>Seleccionamos fórmulas de marcas coreanas reconocidas por su calidad y resultados.</p>
+      <p>Cada producto llega a tus manos con el respaldo de una distribución seria y directa.</p>
+      <p>Sin intermediarios innecesarios: del catálogo a tu puerta, en cualquier punto del país.</p>
+    </div>
+  </Contenedor>
+</section>
+
+<style>
+  .propuesta {
+    padding-block: var(--espacio-7);
+  }
+
+  .propuesta__texto {
+    margin-top: var(--espacio-4);
+    display: grid;
+    gap: var(--espacio-3);
+    max-width: 42rem;
+    font-size: var(--texto-cuerpo-grande);
+  }
+</style>

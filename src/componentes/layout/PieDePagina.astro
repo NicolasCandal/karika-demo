@@ -1,0 +1,70 @@
+---
+// Pie: redes, aviso de privacidad y razón social.
+// PENDIENTE (docs/brief.md, pendiente 7): razón social y RFC reales.
+import Contenedor from '../comunes/Contenedor.astro';
+import { enlaceInstagram } from '../../datos/navegacion.js';
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <Contenedor etiqueta="div">
+    <div class="pie__fila">
+      <p class="pie__razon-social">
+        PENDIENTE: razón social y RFC (docs/brief.md, pendiente 7) — © {anio} Karika
+      </p>
+
+      <a
+        class="pie__instagram"
+        href={enlaceInstagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-evento="clic_instagram"
+      >
+        Instagram
+      </a>
+    </div>
+
+    <p class="pie__aviso">
+      Aviso de privacidad — PENDIENTE: texto completo conforme a la LFPDPPP mexicana (docs/brief.md,
+      sección 2).
+    </p>
+  </Contenedor>
+</footer>
+
+<style>
+  .pie {
+    background-color: var(--color-azul-900);
+    color: var(--color-blanco);
+    padding-block: var(--espacio-4);
+    margin-top: var(--espacio-7);
+  }
+
+  .pie__fila {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio-2);
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .pie__razon-social {
+    font-size: var(--texto-chico);
+    color: color-mix(in srgb, var(--color-blanco) 80%, transparent);
+  }
+
+  .pie__instagram {
+    color: var(--color-agua-400);
+    text-decoration: none;
+  }
+
+  .pie__instagram:hover {
+    text-decoration: underline;
+  }
+
+  .pie__aviso {
+    margin-top: var(--espacio-2);
+    font-size: var(--texto-chico);
+    color: color-mix(in srgb, var(--color-blanco) 65%, transparent);
+  }
+</style>

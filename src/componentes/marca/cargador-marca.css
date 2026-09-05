@@ -1,0 +1,42 @@
+/* Estilos del CargadorMarca. Depende de src/estilos/tokens.css. */
+
+.cargador-marca {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-azul-900);
+  opacity: 1;
+  transition: opacity var(--duracion-transicion) var(--easing-estandar);
+}
+
+.cargador-marca--saliendo {
+  opacity: 0;
+}
+
+.cargador-marca__logo {
+  width: 6rem;
+  height: 6rem;
+}
+
+.cargador-marca__trazo {
+  stroke: var(--color-agua-400);
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: trazo-logo var(--duracion-loader) var(--easing-estandar) forwards;
+}
+
+@keyframes trazo-logo {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cargador-marca__trazo {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,17 +1,24 @@
 ---
-
+// Página única de la landing. Cada sección importada es autocontenida
+// (su propio componente + CSS) y puede borrarse sin romper el resto,
+// según la estructura de CLAUDE.md.
+import LayoutBase from '../layout/LayoutBase.astro';
+import Hero from '../componentes/secciones/hero/Hero.astro';
+import Propuesta from '../componentes/secciones/propuesta/Propuesta.astro';
+import CarruselProductos from '../componentes/secciones/carrusel/CarruselProductos.astro';
+import Beneficios from '../componentes/secciones/beneficios/Beneficios.astro';
+import Ubicacion from '../componentes/secciones/ubicacion/Ubicacion.astro';
+import Contacto from '../componentes/secciones/contacto/Contacto.astro';
 ---
 
-<html lang="es-MX">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Karika</title>
-  </head>
-  <body>
-    <!-- PENDIENTE: reemplazar por el layout base y el loader de marca (Fase 3) -->
-  </body>
-</html>
+<LayoutBase
+  titulo="Karika — Dermocosmética en México"
+  descripcion="Distribución de skincare coreano en México. Catálogo seleccionado, envíos a todo el país."
+>
+  <Hero />
+  <Propuesta />
+  <CarruselProductos />
+  <Beneficios />
+  <Ubicacion />
+  <Contacto />
+</LayoutBase>

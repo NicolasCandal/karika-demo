@@ -1,0 +1,54 @@
+---
+// Botón/enlace con dos variantes visuales. Si recibe `href` renderiza <a>,
+// si no, <button> — para no forzar un <a> sin destino real.
+interface Props {
+  href?: string;
+  variante?: 'primario' | 'secundario';
+  tipo?: 'button' | 'submit';
+}
+
+const { href, variante = 'primario', tipo = 'button' } = Astro.props;
+const Etiqueta = href ? 'a' : 'button';
+---
+
+<Etiqueta
+  class:list={['boton', variante === 'secundario' && 'boton--secundario']}
+  href={href}
+  type={href ? undefined : tipo}
+>
+  <slot />
+</Etiqueta>
+
+<style>
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio-1);
+    padding: var(--espacio-2) var(--espacio-3);
+    border-radius: var(--radio-chico);
+    border: 1px solid var(--color-azul-900);
+    background-color: var(--color-azul-900);
+    color: var(--color-blanco);
+    font-family: var(--fuente-cuerpo);
+    font-size: var(--texto-cuerpo);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--duracion-transicion) var(--easing-estandar);
+  }
+
+  .boton:hover {
+    background-color: var(--color-agua-800);
+    border-color: var(--color-agua-800);
+  }
+
+  .boton--secundario {
+    background-color: transparent;
+    color: var(--color-azul-900);
+  }
+
+  .boton--secundario:hover {
+    background-color: color-mix(in srgb, var(--color-agua-400) 25%, transparent);
+  }
+</style>

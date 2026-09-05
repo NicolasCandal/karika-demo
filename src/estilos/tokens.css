@@ -1,0 +1,68 @@
+/*
+  Sistema de diseño de Karika. Única fuente de verdad para colores,
+  tipografía, espaciado, sombras y movimiento — ningún otro archivo debe
+  declarar un hexadecimal o un valor de espaciado suelto.
+  Referencia de decisiones: docs/brief.md, sección 3.
+*/
+
+:root {
+  /* Color — concepto "luz atravesando agua". Azul marino = agua profunda,
+     verde agua = agua clara con luz. El acento no debe superar el 10% de
+     la superficie visible. */
+  --color-azul-900: #0a1a2f; /* texto y fondos densos — 17.5:1 sobre blanco */
+  --color-agua-800: #2f6660; /* acento en texto — 6.6:1 sobre blanco (AA) */
+  --color-agua-600: #5f9690; /* intermedio, interpolado entre agua-400 y agua-800 — solo para superficies/hover, no para texto chico */
+  --color-agua-400: #8fc5c0; /* acento sobre azul-900 — 9.1:1 sobre azul-900 */
+  --color-bruma: #f3f6f6; /* fondo de página — blanco frío con traza de aqua */
+  --color-blanco: #ffffff;
+  --color-error: #7a2b2b; /* estado de error en toasts y validación de formulario */
+
+  /* Velo del hero: azul marino translúcido del lado del texto */
+  --velo-hero: color-mix(in srgb, var(--color-azul-900) 78%, transparent);
+
+  /* Sombras — azuladas y muy bajas, nunca negras puras */
+  --sombra-baja: 0 1px 3px color-mix(in srgb, var(--color-azul-900) 12%, transparent);
+  --sombra-media: 0 8px 24px color-mix(in srgb, var(--color-azul-900) 16%, transparent);
+
+  /* Tipografía. PENDIENTE: reemplazar la pila de respaldo por Bodoni Moda
+     y Manrope self-hosted (woff2, subset latino, dos pesos por familia)
+     — no se descargó ningún archivo de fuente sin permiso explícito. */
+  --fuente-display: 'Bodoni Moda', 'Times New Roman', serif;
+  --fuente-cuerpo: 'Manrope', system-ui, -apple-system, sans-serif;
+
+  /* Escala tipográfica. El display nunca baja de 24px (su trazo fino
+     desaparece a tamaños menores). */
+  --texto-display-1: clamp(2.5rem, 2rem + 2.2vw, 4rem);
+  --texto-display-2: clamp(1.75rem, 1.5rem + 1.2vw, 2.5rem);
+  --texto-cuerpo-grande: 1.125rem;
+  --texto-cuerpo: 1rem;
+  --texto-chico: 0.875rem;
+
+  /* Espaciado — múltiplos de 8px, nada suelto */
+  --espacio-1: 0.5rem; /* 8px */
+  --espacio-2: 1rem; /* 16px */
+  --espacio-3: 1.5rem; /* 24px */
+  --espacio-4: 2rem; /* 32px */
+  --espacio-5: 3rem; /* 48px */
+  --espacio-6: 4rem; /* 64px */
+  --espacio-7: 6rem; /* 96px */
+  --espacio-8: 8rem; /* 128px */
+
+  /* Radios de borde */
+  --radio-chico: 4px;
+  --radio-medio: 8px;
+
+  /* Movimiento — el único momento orquestado es loader → hero */
+  --duracion-loader: 900ms;
+  --duracion-transicion: 200ms;
+  --easing-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* prefers-reduced-motion se anula acá una sola vez: todo lo que consuma
+   estas variables de duración queda sin animación en el resto del sitio. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracion-loader: 0.01ms;
+    --duracion-transicion: 0.01ms;
+  }
+}

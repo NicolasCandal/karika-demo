@@ -1,0 +1,56 @@
+---
+// Los cuatro datos obligatorios (docs/brief.md, sección 4). Sin
+// marcadores numerados: no es una secuencia, y evitamos el antipatrón de
+// "01 / 02 / 03" en contenido que no lo es.
+import Contenedor from '../../comunes/Contenedor.astro';
+import Titulo from '../../comunes/Titulo.astro';
+import { listaBeneficios } from '../../../datos/beneficios.js';
+---
+
+<section id="beneficios" class="beneficios">
+  <Contenedor etiqueta="div">
+    <Titulo nivel={2}>Por qué Karika</Titulo>
+    <ul class="beneficios__lista">
+      {
+        listaBeneficios.map((beneficio) => (
+          <li class="beneficios__item">
+            <h3 class="beneficios__titulo">{beneficio.titulo}</h3>
+            <p class="beneficios__descripcion">{beneficio.descripcion}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Contenedor>
+</section>
+
+<style>
+  .beneficios {
+    padding-block: var(--espacio-7);
+    background-color: color-mix(in srgb, var(--color-agua-400) 12%, var(--color-bruma));
+  }
+
+  .beneficios__lista {
+    margin-top: var(--espacio-4);
+    display: grid;
+    gap: var(--espacio-4);
+    list-style: none;
+    padding: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .beneficios__lista {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .beneficios__titulo {
+    font-family: var(--fuente-cuerpo);
+    font-size: var(--texto-cuerpo-grande);
+    font-weight: 700;
+  }
+
+  .beneficios__descripcion {
+    margin-top: var(--espacio-1);
+    color: color-mix(in srgb, var(--color-azul-900) 85%, transparent);
+  }
+</style>

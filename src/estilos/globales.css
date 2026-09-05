@@ -1,0 +1,57 @@
+/*
+  Reset y base tipográfica del sitio. Depende de src/estilos/tokens.css —
+  se importa siempre después de tokens.css.
+*/
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bruma);
+  color: var(--color-azul-900);
+  font-family: var(--fuente-cuerpo);
+  font-size: var(--texto-cuerpo);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-display);
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Foco visible en todo lo interactivo — piso de accesibilidad AA */
+:focus-visible {
+  outline: 2px solid var(--color-agua-800);
+  outline-offset: 2px;
+}

@@ -1,0 +1,119 @@
+---
+// Encabezado fijo con navegación de escritorio y el botón que abre
+// MenuMovil.astro. El toggle es JS plano (sin estado de React: no está en
+// la lista de islas de CLAUDE.md).
+import Logo from '../marca/Logo.astro';
+import Contenedor from '../comunes/Contenedor.astro';
+import { enlacesNavegacion } from '../../datos/navegacion.js';
+---
+
+<header class="encabezado">
+  <Contenedor etiqueta="div">
+    <div class="encabezado__fila">
+      <a href="#inicio" class="encabezado__marca" aria-label="Karika, inicio">
+        <Logo id="logo-encabezado" class="encabezado__logo" />
+        <span class="encabezado__nombre">Karika</span>
+      </a>
+
+      <nav class="encabezado__nav" aria-label="Navegación principal">
+        <ul class="encabezado__lista">
+          {
+            enlacesNavegacion.map((enlace) => (
+              <li>
+                <a href={enlace.href}>{enlace.etiqueta}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <button
+        type="button"
+        class="encabezado__boton-menu"
+        aria-expanded="false"
+        aria-controls="menu-movil"
+        data-abrir-menu
+      >
+        <span class="encabezado__boton-menu-texto">Menú</span>
+      </button>
+    </div>
+  </Contenedor>
+</header>
+
+<style>
+  .encabezado {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: color-mix(in srgb, var(--color-bruma) 92%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .encabezado__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--espacio-2);
+  }
+
+  .encabezado__marca {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-1);
+    text-decoration: none;
+    color: var(--color-azul-900);
+  }
+
+  .encabezado__logo {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .encabezado__logo :global(.logo-trazo) {
+    stroke: var(--color-azul-900);
+  }
+
+  .encabezado__nombre {
+    font-family: var(--fuente-display);
+    font-size: var(--texto-cuerpo-grande);
+  }
+
+  .encabezado__nav {
+    display: none;
+  }
+
+  .encabezado__lista {
+    display: flex;
+    gap: var(--espacio-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--texto-cuerpo);
+  }
+
+  .encabezado__lista a {
+    text-decoration: none;
+  }
+
+  .encabezado__lista a:hover {
+    color: var(--color-agua-800);
+  }
+
+  .encabezado__boton-menu {
+    background: none;
+    border: 1px solid var(--color-azul-900);
+    border-radius: var(--radio-chico);
+    padding: var(--espacio-1) var(--espacio-2);
+    cursor: pointer;
+  }
+
+  @media (min-width: 56rem) {
+    .encabezado__nav {
+      display: block;
+    }
+
+    .encabezado__boton-menu {
+      display: none;
+    }
+  }
+</style>

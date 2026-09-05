@@ -1,0 +1,111 @@
+---
+// Panel de navegación móvil. Sin React: es un <dialog> nativo controlado
+// con JS plano, con lo que el foco atrapado y el cierre con Escape vienen
+// gratis del elemento.
+import { enlacesNavegacion } from '../../datos/navegacion.js';
+---
+
+<dialog id="menu-movil" class="menu-movil" aria-label="Menú de navegación">
+  <div class="menu-movil__encabezado">
+    <button type="button" class="menu-movil__cerrar" data-cerrar-menu aria-label="Cerrar menú">
+      ✕
+    </button>
+  </div>
+  <nav aria-label="Navegación móvil">
+    <ul class="menu-movil__lista">
+      {
+        enlacesNavegacion.map((enlace) => (
+          <li>
+            <a href={enlace.href} data-cerrar-menu>
+              {enlace.etiqueta}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</dialog>
+
+<script>
+  const dialogo = document.getElementById('menu-movil') as HTMLDialogElement | null;
+  const botonAbrir = document.querySelector<HTMLButtonElement>('[data-abrir-menu]');
+  const botonesCerrar = document.querySelectorAll<HTMLElement>('[data-cerrar-menu]');
+
+  if (dialogo && botonAbrir) {
+    botonAbrir.addEventListener('click', () => {
+      dialogo.showModal();
+      botonAbrir.setAttribute('aria-expanded', 'true');
+    });
+
+    // No confiamos solo en el evento "close" del <dialog> para resetear
+    // aria-expanded: en el cierre explícito (botón o click en el backdrop)
+    // lo actualizamos directo. El listener de "close" queda como respaldo
+    // para el cierre nativo con la tecla Escape, que no pasa por `cerrar`.
+    const cerrar = () => {
+      dialogo.close();
+      botonAbrir.setAttribute('aria-expanded', 'false');
+    };
+
+    botonesCerrar.forEach((boton) => boton.addEventListener('click', cerrar));
+
+    dialogo.addEventListener('close', () => {
+      botonAbrir.setAttribute('aria-expanded', 'false');
+    });
+
+    dialogo.addEventListener('click', (evento) => {
+      if (evento.target === dialogo) cerrar();
+    });
+  }
+</script>
+
+<style>
+  .menu-movil {
+    border: none;
+    padding: var(--espacio-3);
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    background-color: var(--color-bruma);
+  }
+
+  .menu-movil::backdrop {
+    background-color: var(--velo-hero);
+  }
+
+  .menu-movil__encabezado {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .menu-movil__cerrar {
+    background: none;
+    border: none;
+    font-size: var(--texto-cuerpo-grande);
+    cursor: pointer;
+    padding: var(--espacio-1);
+  }
+
+  .menu-movil__lista {
+    list-style: none;
+    margin: var(--espacio-4) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-3);
+    font-family: var(--fuente-display);
+    font-size: var(--texto-display-2);
+  }
+
+  .menu-movil__lista a {
+    text-decoration: none;
+    color: var(--color-azul-900);
+  }
+
+  @media (min-width: 56rem) {
+    .menu-movil {
+      display: none;
+    }
+  }
+</style>

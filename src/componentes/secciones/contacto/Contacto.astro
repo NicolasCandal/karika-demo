@@ -1,0 +1,28 @@
+---
+// WhatsApp como acción principal, con formulario de respaldo
+// (docs/brief.md, sección 4). El formulario hidrata con client:visible,
+// como pide CLAUDE.md para todo lo que no sea el loader.
+import Contenedor from '../../comunes/Contenedor.astro';
+import Titulo from '../../comunes/Titulo.astro';
+import { Formulario } from './Formulario.jsx';
+---
+
+<section id="contacto" class="contacto">
+  <Contenedor etiqueta="div">
+    <Titulo nivel={2}>Contacto</Titulo>
+    <p class="contacto__bajada">Escribinos por WhatsApp o dejanos tus datos acá abajo.</p>
+    <Formulario client:visible />
+  </Contenedor>
+</section>
+
+<style>
+  .contacto {
+    padding-block: var(--espacio-7);
+  }
+
+  .contacto__bajada {
+    margin-top: var(--espacio-2);
+    margin-bottom: var(--espacio-4);
+    color: color-mix(in srgb, var(--color-azul-900) 85%, transparent);
+  }
+</style>
