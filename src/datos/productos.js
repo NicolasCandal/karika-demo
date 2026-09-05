@@ -7,14 +7,20 @@
 // la tarjeta remite a consultar por WhatsApp en lugar de mostrar un
 // número inventado.
 //
-// Nota sobre las imágenes: son las fichas de Instagram, con el copy
-// quemado en los píxeles. Sirven, pero un recorte limpio del envase se
-// leería mejor en la tarjeta del carrusel.
+// Cada producto tiene dos imágenes:
+// - `imagen`: recorte limpio del envase, para la tarjeta del carrusel. Lo
+//   genera scripts/recortar-envases.mjs a partir de la ficha.
+// - `ficha`: la infografía completa del cliente, que se abre en un
+//   diálogo. Ahí su texto sí se lee, cosa que a 272px no pasaba.
 
-import brumaDrAlthea from '../activos/imagenes/productos/dr-althea-345-relief-cream-mist.jpg';
-import protectorRoundLab from '../activos/imagenes/productos/round-lab-birch-juice-sun-cream.jpg';
-import mascarillaSkin1004 from '../activos/imagenes/productos/skin1004-centella-clay-stick-mask.jpg';
-import serumSkin1004 from '../activos/imagenes/productos/skin1004-centella-hyalu-cica-sun-serum.jpg';
+import brumaDrAltheaFicha from '../activos/imagenes/productos/dr-althea-345-relief-cream-mist.jpg';
+import brumaDrAlthea from '../activos/imagenes/productos/dr-althea-345-relief-cream-mist-envase.jpg';
+import protectorRoundLabFicha from '../activos/imagenes/productos/round-lab-birch-juice-sun-cream.jpg';
+import protectorRoundLab from '../activos/imagenes/productos/round-lab-birch-juice-sun-cream-envase.jpg';
+import mascarillaSkin1004Ficha from '../activos/imagenes/productos/skin1004-centella-clay-stick-mask.jpg';
+import mascarillaSkin1004 from '../activos/imagenes/productos/skin1004-centella-clay-stick-mask-envase.jpg';
+import serumSkin1004Ficha from '../activos/imagenes/productos/skin1004-centella-hyalu-cica-sun-serum.jpg';
+import serumSkin1004 from '../activos/imagenes/productos/skin1004-centella-hyalu-cica-sun-serum-envase.jpg';
 
 export const listaProductos = [
   {
@@ -25,6 +31,7 @@ export const listaProductos = [
     descripcion:
       'Protector solar hidratante que protege contra los rayos UV mientras repone y retiene la humedad en la piel.',
     imagen: protectorRoundLab,
+    ficha: protectorRoundLabFicha,
     precio: null,
   },
   {
@@ -35,6 +42,7 @@ export const listaProductos = [
     descripcion:
       'Protector solar ligero e hidratante que protege tu piel de los rayos UV mientras la calma e hidrata.',
     imagen: serumSkin1004,
+    ficha: serumSkin1004Ficha,
     precio: null,
   },
   {
@@ -45,6 +53,7 @@ export const listaProductos = [
     descripcion:
       'Mascarilla en barra con arcilla que limpia profundamente los poros, controla el exceso de grasa y deja la piel suave y fresca al instante.',
     imagen: mascarillaSkin1004,
+    ficha: mascarillaSkin1004Ficha,
     precio: null,
   },
   {
@@ -55,6 +64,7 @@ export const listaProductos = [
     descripcion:
       'Bruma facial hidratante y calmante que refresca la piel al instante, aporta hidratación profunda y ayuda a fortalecer la barrera cutánea.',
     imagen: brumaDrAlthea,
+    ficha: brumaDrAltheaFicha,
     precio: null,
   },
 ];

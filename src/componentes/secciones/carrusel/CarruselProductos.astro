@@ -4,9 +4,9 @@
 // brief lo deja para cuando se migre a Embla si hace falta loop/autoplay.
 // El único JS es el de esta página: mover el scroll con los botones y
 // anunciar el producto visible por aria-live.
-// Las imágenes son las fichas que envió el cliente: traen el texto
-// quemado, así que el alt lo reproduce (WCAG 1.1.1) y la tarjeta repite
-// nombre y descripción como texto real debajo.
+// La tarjeta muestra el recorte del envase; la ficha completa del
+// cliente (que trae el copy quemado, ilegible a 272px) se abre en un
+// <dialog> nativo, con el mismo patrón sin framework que MenuMovil.
 import { Picture } from 'astro:assets';
 import Contenedor from '../../comunes/Contenedor.astro';
 import Titulo from '../../comunes/Titulo.astro';
@@ -45,9 +45,9 @@ import { listaProductos } from '../../../datos/productos.js';
             <Picture
               class="carrusel__imagen"
               src={producto.imagen}
-              alt={`Ficha de ${producto.marca} ${producto.nombre}, ${producto.presentacion}. ${producto.descripcion}`}
-              widths={[320, 640, 960]}
-              sizes="(min-width: 48rem) 20rem, 80vw"
+              alt={`${producto.marca} ${producto.nombre}, ${producto.presentacion}`}
+              widths={[300, 600, 750]}
+              sizes="(min-width: 48rem) 18rem, 70vw"
               formats={['avif', 'webp']}
               fallbackFormat="jpg"
               quality={72}
@@ -59,11 +59,40 @@ import { listaProductos } from '../../../datos/productos.js';
             <h3 class="carrusel__nombre">{producto.nombre}</h3>
             <p class="carrusel__descripcion">{producto.descripcion}</p>
             <p class="carrusel__precio">{producto.precio ?? 'Precio: consultar por WhatsApp'}</p>
+            <button
+              type="button"
+              class="carrusel__ver-ficha"
+              data-abrir-ficha={producto.id}
+              aria-haspopup="dialog"
+            >
+              Ver ficha completa
+            </button>
           </li>
         ))
       }
     </ul>
   </Contenedor>
+
+  {
+    listaProductos.map((producto) => (
+      <dialog class="ficha" id={`ficha-${producto.id}`} aria-label={`Ficha de ${producto.nombre}`}>
+        <button type="button" class="ficha__cerrar" data-cerrar-ficha aria-label="Cerrar ficha">
+          ✕
+        </button>
+        <Picture
+          class="ficha__imagen"
+          src={producto.ficha}
+          alt={`Ficha de ${producto.marca} ${producto.nombre}, ${producto.presentacion}. ${producto.descripcion} Venta al mayoreo desde 5 piezas, envíos dentro de la República y atención personalizada.`}
+          widths={[480, 960, 1440]}
+          sizes="(min-width: 48rem) 40rem, 90vw"
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          quality={72}
+          loading="lazy"
+        />
+      </dialog>
+    ))
+  }
 </section>
 
 <script>
@@ -97,6 +126,24 @@ import { listaProductos } from '../../../datos/productos.js';
 
     items.forEach((item) => observador.observe(item));
   }
+
+  // Diálogo de ficha completa. Igual que en MenuMovil, el cierre explícito
+  // actualiza el estado a mano en vez de depender del evento "close".
+  document.querySelectorAll<HTMLButtonElement>('[data-abrir-ficha]').forEach((boton) => {
+    const id = boton.getAttribute('data-abrir-ficha');
+    const dialogo = document.getElementById(`ficha-${id}`) as HTMLDialogElement | null;
+    if (!dialogo) return;
+
+    boton.addEventListener('click', () => dialogo.showModal());
+
+    dialogo
+      .querySelectorAll<HTMLElement>('[data-cerrar-ficha]')
+      .forEach((cerrar) => cerrar.addEventListener('click', () => dialogo.close()));
+
+    dialogo.addEventListener('click', (evento) => {
+      if (evento.target === dialogo) dialogo.close();
+    });
+  });
 </script>
 
 <style>
@@ -159,10 +206,61 @@ import { listaProductos } from '../../../datos/productos.js';
   .carrusel__imagen {
     width: 100%;
     height: auto;
-    aspect-ratio: 1;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: var(--radio-chico);
     background-color: var(--color-bruma);
+  }
+
+  .carrusel__ver-ficha {
+    margin-top: var(--espacio-2);
+    align-self: start;
+    background: none;
+    border: 1px solid var(--color-agua-800);
+    color: var(--color-agua-800);
+    border-radius: var(--radio-chico);
+    padding: var(--espacio-1) var(--espacio-2);
+    font-size: var(--texto-chico);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .carrusel__ver-ficha:hover {
+    background-color: var(--color-agua-800);
+    color: var(--color-blanco);
+  }
+
+  .ficha {
+    border: none;
+    padding: 0;
+    max-width: min(90vw, 40rem);
+    max-height: 90vh;
+    background-color: var(--color-blanco);
+    border-radius: var(--radio-medio);
+    overflow: hidden;
+  }
+
+  .ficha::backdrop {
+    background-color: var(--velo-hero);
+  }
+
+  .ficha__cerrar {
+    position: absolute;
+    top: var(--espacio-1);
+    right: var(--espacio-1);
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color-blanco);
+    box-shadow: var(--sombra-baja);
+    cursor: pointer;
+  }
+
+  .ficha__imagen {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .carrusel__marca {

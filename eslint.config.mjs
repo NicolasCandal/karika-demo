@@ -27,6 +27,13 @@ export default tseslint.config(
     },
   },
   {
+    // Los scripts de scripts/ corren en Node, no en el navegador.
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
+    },
+  },
+  {
     ignores: ['dist/', '.astro/', 'node_modules/'],
   },
   prettier,
