@@ -100,7 +100,7 @@ import heroImagen from '../../../activos/imagenes/hero/hero-productos.jpg';
   @media (min-width: 60rem) {
     .hero__figura {
       left: auto;
-      width: 52%;
+      width: 48%;
     }
 
     .hero__imagen {
@@ -118,8 +118,26 @@ import heroImagen from '../../../activos/imagenes/hero/hero-productos.jpg';
       );
     }
 
+    /*
+      El texto ocupa la columna izquierda de una grilla real.
+      Antes esto era `padding-right: 50%`, y era un error: el porcentaje
+      de un padding se resuelve contra el bloque contenedor —acá, el ancho
+      completo de la ventana—, no contra la caja del elemento. En una
+      pantalla de 1920 daba 952px de padding y dejaba la columna de texto
+      en 151px, rompiendo el titular palabra por palabra.
+
+      El contenedor del hero es más ancho que el del resto de la página
+      para que la columna respire sin meterse debajo de la foto.
+    */
     .hero__contenido {
-      padding-right: 50%;
+      max-width: 82rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--espacio-6);
+    }
+
+    .hero__contenido > * {
+      grid-column: 1;
     }
   }
 
@@ -130,13 +148,11 @@ import heroImagen from '../../../activos/imagenes/hero/hero-productos.jpg';
   }
 
   .hero__titular {
-    /* Un punto por debajo de la escala mayor: en versalitas espaciadas,
-       "CUIDADO" necesita mucho ancho y si no rompe en cinco renglones. */
-    font-size: clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem);
+    font-size: clamp(2.125rem, 1.3rem + 2.9vw, 3.75rem);
     text-transform: uppercase;
     letter-spacing: var(--interletra-display);
     color: var(--color-blanco);
-    max-width: 13ch;
+    max-width: 14ch;
     text-wrap: balance;
   }
 
