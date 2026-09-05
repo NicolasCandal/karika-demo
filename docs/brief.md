@@ -107,15 +107,18 @@ nativa en móvil, accesible por defecto. Migrar a Embla (~5 KB) solo si hacen
 falta loop o autoplay. Swiper está descartado por peso. Botones reales,
 navegación por teclado, `aria-live`, autoplay que se pausa al hover y al foco.
 
-**Beneficios.** Los cuatro datos obligatorios: exclusividad, garantía, envíos a
-todo México, ubicación. Sin marcadores numerados: no es una secuencia.
+**Beneficios.** Cuatro datos, sin marcadores numerados: no es una secuencia.
+Los cuatro originales (exclusividad, garantía, envíos, ubicación) resultaron
+calcados de Oro & Glow; hoy son mayoreo desde 5 piezas, envíos a todo México,
+en existencia y atención personalizada, todos tomados de las fichas reales.
 
-**Ubicación.** Dirección más mapa. Agregar `schema.org/LocalBusiness`, que
-además ayuda al SEO local.
+**Ubicación.** ~~Dirección más mapa con `schema.org/LocalBusiness`.~~
+**Eliminada:** el cliente confirmó que no hay local físico, solo envíos.
 
-**Contacto.** WhatsApp como acción principal (`wa.me/52...`). Formulario con
-honeypot, validación del lado del servidor y límite de envíos. El resultado se
-comunica con el toaster.
+**Contacto.** Solo Instagram, por pedido del cliente. ~~WhatsApp como acción
+principal y formulario con honeypot~~: se retiraron junto con el toaster, que
+había quedado sin uso. Si más adelante vuelve el formulario, sigue haciendo
+falta un servicio externo de envío, porque el sitio es estático.
 
 **Pie.** Redes y, antes de publicar, aviso de privacidad y razón social. En la
 demo privada el pie lleva solo el emblema, Instagram y el año.
@@ -167,7 +170,7 @@ marcas de agua, sin personas identificables.
 | 4. Hero | Hecho |
 | 5. Secciones | Hecho |
 | 6. Pipeline de imágenes | Parcial: `scripts/preparar-hero.mjs` y `scripts/recortar-envases.mjs` recortan; falta el pipeline de formatos y LQIP, hoy resuelto por `<Picture>` de Astro |
-| 7. Analítica, SEO, schema.org, accesibilidad | Pendiente. Los eventos están marcados con `data-evento` pero no hay analítica conectada; el `LocalBusiness` se cayó junto con la ubicación |
+| 7. Analítica, SEO, schema.org, accesibilidad | Parcial: hechos Open Graph, `twitter:card`, canonical y el `noindex` de la demo (`MetaSeo.astro` + `robots.txt.js`). Falta conectar la analítica —los eventos ya están marcados con `data-evento`— y `schema.org`, que sin local físico sería `Organization`, no `LocalBusiness` |
 | 8. Auditoría Lighthouse, deploy, aviso de privacidad | Pendiente |
 
 El orden original era una sección por sesión, pero el cliente pidió armar la
