@@ -30,7 +30,11 @@ const logoLoader = await getImage({ src: emblema, width: 288, height: 288, forma
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={descripcion} />
+    <!-- Varios tamaños para que el navegador elija el mejor: el mapa del
+         emblema se lee bien de 48px para arriba. -->
     <link rel="icon" type="image/png" sizes="32x32" href="/icono-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/icono-48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/icono-96.png" />
     <link rel="apple-touch-icon" href="/icono-180.png" />
     <meta name="generator" content={Astro.generator} />
 
