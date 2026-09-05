@@ -1,7 +1,8 @@
 ---
-// Encabezado fijo. Arranca transparente sobre el hero oscuro y toma
-// fondo claro recién cuando la página se desplaza, para no cortar la
-// imagen con una barra desde el primer momento.
+// Encabezado fijo. Va transparente mientras esté sobre el hero y toma
+// fondo claro recién cuando lo deja atrás, para no partir la imagen con
+// una barra blanca. Un velo degradado sostiene el contraste del texto
+// durante ese tramo. Ver los comentarios del script y del CSS.
 import Logo from '../marca/Logo.astro';
 import { enlacesNavegacion } from '../../datos/navegacion.js';
 ---
@@ -39,14 +40,44 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
 
 <script>
   const encabezado = document.querySelector<HTMLElement>('[data-encabezado]');
+  const hero = document.getElementById('inicio');
 
   if (encabezado) {
-    const marcarDesplazado = () => {
-      encabezado.classList.toggle('encabezado--desplazado', window.scrollY > 24);
-    };
+    const marcar = (desplazado: boolean) =>
+      encabezado.classList.toggle('encabezado--desplazado', desplazado);
 
-    marcarDesplazado();
-    window.addEventListener('scroll', marcarDesplazado, { passive: true });
+    if (hero) {
+      // El encabezado toma fondo claro recién cuando deja de estar sobre el
+      // hero. Antes bastaban 24px de scroll y la barra se volvía blanca con
+      // la foto todavía a la vista, que es justo lo que se quería evitar.
+      //
+      // El margen negativo arriba encoge la zona observada la altura del
+      // propio encabezado: mientras quede hero por debajo de esa línea,
+      // sigue habiendo intersección y la barra se mantiene transparente.
+      let observador: IntersectionObserver | null = null;
+
+      const observarHero = () => {
+        observador?.disconnect();
+
+        observador = new IntersectionObserver(([entrada]) => marcar(!entrada.isIntersecting), {
+          rootMargin: `-${encabezado.offsetHeight}px 0px 0px 0px`,
+          threshold: 0,
+        });
+
+        observador.observe(hero);
+      };
+
+      observarHero();
+
+      // El hero mide 100svh, así que su alto cambia al girar el teléfono o
+      // al aparecer y desaparecer la barra del navegador.
+      window.addEventListener('resize', observarHero);
+    } else {
+      // Sin hero (otras páginas), alcanza con un umbral de scroll.
+      const porScroll = () => marcar(window.scrollY > 24);
+      porScroll();
+      window.addEventListener('scroll', porScroll, { passive: true });
+    }
   }
 </script>
 
@@ -63,6 +94,33 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
       color var(--duracion-transicion) var(--easing-estandar),
       border-color var(--duracion-transicion) var(--easing-estandar);
     border-bottom: 1px solid transparent;
+  }
+
+  /*
+    Mientras la barra va transparente sobre el hero, el texto blanco tiene
+    que sobrevivir a lo que pase por debajo: arriba del todo hay azul
+    marino, pero a media altura pasan los envases claros y los enlaces se
+    volvían ilegibles. Este velo lo resuelve sin pintar la barra: sobre el
+    azul es invisible, y sobre la foto clara sostiene el contraste.
+  */
+  .encabezado::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-azul-900) 78%, transparent),
+      color-mix(in srgb, var(--color-azul-900) 45%, transparent) 60%,
+      transparent
+    );
+    opacity: 1;
+    transition: opacity var(--duracion-transicion) var(--easing-estandar);
+  }
+
+  /* Con fondo claro el velo sobra. */
+  .encabezado--desplazado::before {
+    opacity: 0;
   }
 
   .encabezado--desplazado {
