@@ -159,18 +159,19 @@ marcas de agua, sin personas identificables.
 
 | Fase | Estado |
 |---|---|
-| 0. Brief y contenido del cliente | **Bloqueada, faltan datos** |
+| 0. Brief y contenido del cliente | Parcial, faltan datos (ver sección 8) |
 | 1. Sistema de diseño (`tokens.css`) | Hecho |
-| 2. Andamiaje: repo, Astro, carpetas, ESLint/Prettier | Siguiente |
-| 3. Layout base + loader de marca | |
-| 4. Hero | |
-| 5. Secciones, una por sesión | |
-| 6. Pipeline de imágenes | |
-| 7. Analítica, SEO, schema.org, accesibilidad | |
-| 8. Auditoría Lighthouse, deploy, aviso de privacidad | |
+| 2. Andamiaje: repo, Astro, carpetas, ESLint/Prettier | Hecho |
+| 3. Layout base + loader de marca | Hecho |
+| 4. Hero | Hecho |
+| 5. Secciones | Hecho |
+| 6. Pipeline de imágenes | Parcial: `scripts/preparar-hero.mjs` y `scripts/recortar-envases.mjs` recortan; falta el pipeline de formatos y LQIP, hoy resuelto por `<Picture>` de Astro |
+| 7. Analítica, SEO, schema.org, accesibilidad | Pendiente. Los eventos están marcados con `data-evento` pero no hay analítica conectada; el `LocalBusiness` se cayó junto con la ubicación |
+| 8. Auditoría Lighthouse, deploy, aviso de privacidad | Pendiente |
 
-Las fases 2 y 3 pueden avanzar con contenido de relleno marcado como
-`PENDIENTE`. De la 4 en adelante hace falta el material real.
+El orden original era una sección por sesión, pero el cliente pidió armar la
+página completa de una vez. Las secciones quedaron construidas con marcadores
+`PENDIENTE` donde falta material real.
 
 ---
 
@@ -183,8 +184,14 @@ y avisar.
    caducidad (PAO de 6 a 24 meses), no garantía. Hay que aclarar si se refiere
    a un aparato, a garantía de satisfacción, o a vida útil sin abrir. Poner
    "garantía 5 años" sobre una crema resta credibilidad.
-2. Logo vectorial (SVG o AI). El loader depende de esto.
-3. Dirección exacta del local.
+   **Dato nuevo:** la frase aparece igual en Oro & Glow, la página de joyería
+   que el cliente pasó como referencia, donde sí tiene sentido. Es probable
+   que se haya heredado de ahí y no del negocio. Está fuera de la página
+   hasta que el cliente lo aclare.
+2. Logo vectorial (SVG o AI). Hoy el emblema es un recorte del PNG del hero
+   (`scripts/preparar-hero.mjs`), así que no escala.
+3. ~~Dirección exacta del local.~~ **Resuelto:** no hay local físico, trabajan
+   solo con envíos. Se retiraron la sección Ubicación y el `LocalBusiness`.
 4. Catálogo: ~~nombres, descripciones~~, si llevan precio y en qué moneda.
    **Parcialmente resuelto:** las fichas del cliente
    (`src/activos/imagenes/productos/`) dan marca, nombre, presentación y
