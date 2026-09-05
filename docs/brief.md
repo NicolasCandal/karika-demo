@@ -74,10 +74,15 @@ de elementos, cae en estética de farmacia.
 El acento ocupa como máximo el 10% de la superficie visible. `agua-400` y
 `agua-600` no sirven para texto chico sobre blanco: solo `agua-800` pasa AA.
 
-**Tipografía.** Bodoni Moda para display, Manrope para cuerpo e interfaz.
-Se descartaron Playfair y Cormorant por sobreexpuestas. El Bodoni no baja de
-24px: su trazo fino desaparece. Self-hosted en woff2, subset latino, dos pesos
-por familia como máximo.
+**Tipografía.** ~~Bodoni Moda~~ **Prata** para display, Manrope para cuerpo e
+interfaz. Se descartaron Playfair y Cormorant por sobreexpuestas. Self-hosted
+en woff2, subset latino, dos pesos por familia como máximo.
+
+El cambio de Bodoni a Prata se hizo al verlo puesto: la advertencia de este
+mismo brief —"su trazo fino desaparece"— se cumplió en los titulares en
+versalitas espaciadas, sobre todo contra el azul marino. Prata es didone
+también, así que mantiene el registro, pero con más carne. Se compararon
+además Castoro Titling, Cinzel, Marcellus y Bodoni en peso 500.
 
 **Fondo.** No es blanco puro ni crema cálido. Es un blanco frío con traza de
 aqua, que continúa el concepto en vez de contradecirlo.

@@ -46,9 +46,10 @@
   --sombra-baja: 0 1px 3px color-mix(in srgb, var(--color-azul-900) 10%, transparent);
   --sombra-media: 0 8px 24px color-mix(in srgb, var(--color-azul-900) 14%, transparent);
 
-  /* Tipografía self-hosted (woff2, subset latino, variables).
-     Bodoni Moda para display, Manrope para cuerpo e interfaz. */
-  --fuente-display: 'Bodoni Moda', 'Times New Roman', serif;
+  /* Tipografía self-hosted (woff2, subset latino).
+     Prata para display, Manrope para cuerpo e interfaz.
+     Ver el porqué del cambio de Bodoni a Prata en globales.css. */
+  --fuente-display: 'Prata', 'Times New Roman', serif;
   --fuente-cuerpo: 'Manrope', system-ui, -apple-system, sans-serif;
 
   /* Escala tipográfica fluida. El display nunca baja de 24px: su trazo

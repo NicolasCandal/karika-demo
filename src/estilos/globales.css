@@ -7,10 +7,16 @@
 /* Fuentes self-hosted, subset latino, variables (un archivo por familia
    cubre todo el rango de pesos). `swap` para no bloquear el primer
    pintado; el fallback está elegido para que el salto sea chico. */
+/* Prata en lugar de Bodoni Moda para el display. El Bodoni es una didone
+   de contraste altísimo y en versalitas espaciadas sus trazos finos se
+   afinaban al punto de verse frágiles — justo lo que advertía el brief
+   ("su trazo fino desaparece"). Prata es didone también, así que conserva
+   el aire de moda, pero con más carne: aguanta las mayúsculas.
+   Las candidatas comparadas están en src/pages/tipografias.astro. */
 @font-face {
-  font-family: 'Bodoni Moda';
-  src: url('/fuentes/bodoni-moda-latin.woff2') format('woff2');
-  font-weight: 400 500;
+  font-family: 'Prata';
+  src: url('/fuentes/prata-latin.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
