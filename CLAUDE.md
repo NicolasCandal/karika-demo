@@ -8,10 +8,15 @@ Sistema de diseño: `src/estilos/tokens.css`.
 
 ## Stack
 
-Astro con islas de React. Sitio estático, sin servidor.
+Astro con islas de Preact. Sitio estático, sin servidor.
 
-- Todo es `.astro` por defecto. React solo donde hay estado del cliente:
-  carrusel, loader de marca, toaster, formulario.
+Preact y no React: las islas son pocas y chicas, y `react` + `react-dom`
+costaban ~190 KB, muy por encima del presupuesto de JS. Con Preact el
+bundle queda en ~28 KB.
+
+- Todo es `.astro` por defecto. Preact solo donde hay estado del cliente:
+  loader de marca, toaster, formulario. El carrusel es CSS scroll-snap
+  puro, sin framework.
 - Hidratar con `client:visible`, nunca `client:load`, salvo el loader.
 - Imágenes siempre con `<Image />` de `astro:assets`, nunca `<img>` crudo
   ni `background-image` en fotos de producto.

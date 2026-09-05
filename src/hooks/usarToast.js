@@ -1,5 +1,5 @@
 // Acceso al ContextoToast. Debe usarse dentro de <ProveedorToast>.
-import { useContext } from 'react';
+import { useContext } from 'preact/hooks';
 import { ContextoToast } from '../contexto/ContextoToast.jsx';
 
 export function usarToast() {

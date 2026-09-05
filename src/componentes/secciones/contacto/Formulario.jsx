@@ -7,7 +7,7 @@
 // sección Stack), así que el formulario necesita un servicio externo
 // (Formspree o similar) todavía no elegido — por ahora valida y honestamente
 // avisa que el envío no está conectado, en lugar de fingir un éxito falso.
-import { useId, useState } from 'react';
+import { useId, useState } from 'preact/hooks';
 import { ProveedorToast } from '../../../contexto/ContextoToast.jsx';
 import { Toast } from '../../comunes/Toast.jsx';
 import { usarToast } from '../../../hooks/usarToast.js';

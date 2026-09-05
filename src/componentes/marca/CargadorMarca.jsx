@@ -3,7 +3,7 @@
 // nada. Reglas (docs/brief.md, sección 5): solo la primera visita de la
 // sesión, corte forzado a 1.5s, el hero ya está renderizado detrás,
 // aria-hidden, y fundido simple si hay movimiento reducido.
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/hooks';
 import './cargador-marca.css';
 
 const CLAVE_SESION = 'karika-loader-visto';
