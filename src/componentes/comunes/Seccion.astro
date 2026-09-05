@@ -1,0 +1,92 @@
+---
+// Envoltorio de sección: fija el ancho, el canal lateral y el rótulo
+// vertical del margen izquierdo, que es lo que le da ritmo editorial a la
+// página y evita tener que titular dos veces cada bloque.
+//
+// `tono` alterna la superficie (clara / elevada / oscura). La alternancia
+// es lo que separa una sección de otra: no hacen falta líneas divisorias.
+interface Props {
+  id?: string;
+  rotulo: string;
+  tono?: 'claro' | 'elevado' | 'oscuro';
+  class?: string;
+}
+
+const { id, rotulo, tono = 'claro', class: clase } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['seccion', `seccion--${tono}`, tono === 'oscuro' && 'banda-oscura', clase]}
+>
+  <div class="seccion__interior">
+    <p class="seccion__rotulo" aria-hidden="true">{rotulo}</p>
+    <div class="seccion__cuerpo">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .seccion {
+    padding-block: clamp(var(--espacio-6), 10vw, var(--espacio-8));
+  }
+
+  .seccion--claro {
+    background-color: var(--color-bruma);
+  }
+
+  .seccion--elevado {
+    background-color: var(--color-elevado);
+  }
+
+  .seccion--oscuro {
+    background:
+      radial-gradient(
+        90% 70% at 12% 0%,
+        color-mix(in srgb, var(--color-agua-800) 22%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(168deg, var(--color-azul-900), var(--color-azul-800));
+    color: var(--tinta-clara);
+  }
+
+  .seccion__interior {
+    width: 100%;
+    max-width: var(--ancho-contenido);
+    margin-inline: auto;
+    padding-inline: var(--canal);
+    display: grid;
+    grid-template-columns: var(--riel) minmax(0, 1fr);
+  }
+
+  /* El rótulo gira 180° para leerse de abajo hacia arriba, pegado al
+     borde superior del bloque. */
+  .seccion__rotulo {
+    font-size: var(--texto-12);
+    letter-spacing: var(--interletra-etiqueta);
+    text-transform: uppercase;
+    color: var(--tinta-tenue);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    height: max-content;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .seccion--oscuro .seccion__rotulo {
+    color: color-mix(in srgb, var(--color-oro) 70%, transparent);
+  }
+
+  /* Por debajo del breakpoint el riel mide 0: el rótulo se esconde en vez
+     de comerse el ancho de lectura. */
+  @media (max-width: 60rem) {
+    .seccion__rotulo {
+      display: none;
+    }
+
+    .seccion__interior {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

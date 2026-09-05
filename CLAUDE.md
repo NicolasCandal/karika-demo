@@ -104,14 +104,19 @@ Vienen de decisiones ya tomadas, no son preferencias sueltas:
 
 - Etiquetas en mayúsculas sostenidas sobre los títulos
 - Marcadores numerados `01 / 02 / 03` en contenido que no es una secuencia
-- Entradas fade-and-slide-up en cada sección al hacer scroll
 - Tarjetas idénticas con el mismo radio y la misma sombra gris para todo
 - Flechas `→` pegadas al texto de los botones
 - Resaltar una sola palabra del titular en otro color
 - Sombras negras (las del sistema son azuladas y muy bajas)
 
-El sitio tiene un solo momento de movimiento orquestado: la transición del
-loader al hero. Todo lo demás responde a una acción del usuario.
+**Movimiento.** El cliente pidió entradas al hacer scroll, así que la
+regla original de "un solo momento de movimiento orquestado" quedó
+revisada. La entrada vive en `.entrada` (`src/estilos/globales.css`) y
+tiene condiciones: 900 ms con curva desacelerada, un solo bloque por
+unidad de contenido (no por párrafo), una sola vez por bloque, el estado
+oculto lo agrega el JS —sin JS se ve todo—, y `prefers-reduced-motion` la
+anula. Lo que sigue descartado es el fade-and-slide-up corto y repetido
+en cada elemento.
 
 ## Git
 

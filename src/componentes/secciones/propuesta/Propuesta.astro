@@ -1,32 +1,77 @@
 ---
 // Qué es la marca en tres frases, alineado a la izquierda (docs/brief.md,
-// sección 4). Karika distribuye skincare coreano en México — dato
-// confirmado por el cliente sobre la imagen de referencia, no inventado.
-import Contenedor from '../../comunes/Contenedor.astro';
-import Titulo from '../../comunes/Titulo.astro';
+// sección 4). Las frases van en columnas separadas por filete, para que
+// se lean como tres ideas y no como un bloque de texto corrido.
+import Seccion from '../../comunes/Seccion.astro';
+import EncabezadoSeccion from '../../comunes/EncabezadoSeccion.astro';
+
+const frases = [
+  {
+    titulo: 'Selección',
+    texto: 'Trabajamos con marcas coreanas reconocidas por su calidad y sus resultados.',
+  },
+  {
+    titulo: 'Distribución directa',
+    texto: 'Cada producto llega con el respaldo de una distribución seria, sin intermediarios.',
+  },
+  {
+    titulo: 'A todo México',
+    texto: 'Del catálogo a tu puerta, en cualquier punto de la República.',
+  },
+];
 ---
 
-<section class="propuesta">
-  <Contenedor etiqueta="div">
-    <Titulo nivel={2}>Distribución de skincare coreano en México</Titulo>
-    <div class="propuesta__texto">
-      <p>Seleccionamos fórmulas de marcas coreanas reconocidas por su calidad y resultados.</p>
-      <p>Cada producto llega a tus manos con el respaldo de una distribución seria y directa.</p>
-      <p>Sin intermediarios innecesarios: del catálogo a tu puerta, en cualquier punto del país.</p>
-    </div>
-  </Contenedor>
-</section>
+<Seccion id="propuesta" rotulo="La marca" tono="elevado">
+  <EncabezadoSeccion
+    etiqueta="Quiénes somos"
+    titulo="Distribución de skincare coreano"
+    bajada="Karika acerca al mercado mexicano fórmulas que ya probaron su eficacia en Corea."
+  />
+
+  <ul class="propuesta">
+    {
+      frases.map((frase) => (
+        <li class="propuesta__item entrada">
+          <h3 class="propuesta__titulo">{frase.titulo}</h3>
+          <p class="propuesta__texto">{frase.texto}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>
 
 <style>
   .propuesta {
-    padding-block: var(--espacio-7);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--espacio-5);
+  }
+
+  @media (min-width: 48rem) {
+    .propuesta {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--espacio-4);
+    }
+  }
+
+  .propuesta__item {
+    border-top: 1px solid var(--filete);
+    padding-top: var(--espacio-3);
+  }
+
+  .propuesta__titulo {
+    font-family: var(--fuente-cuerpo);
+    font-size: var(--texto-15);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-agua-800);
   }
 
   .propuesta__texto {
-    margin-top: var(--espacio-4);
-    display: grid;
-    gap: var(--espacio-3);
-    max-width: 42rem;
-    font-size: var(--texto-cuerpo-grande);
+    margin-top: var(--espacio-2);
+    color: var(--tinta-suave);
   }
 </style>

@@ -9,34 +9,64 @@
   /* Color — concepto "luz atravesando agua". Azul marino = agua profunda,
      verde agua = agua clara con luz. El acento no debe superar el 10% de
      la superficie visible. */
-  --color-azul-900: #0a1a2f; /* texto y fondos densos — 17.5:1 sobre blanco */
-  --color-agua-800: #2f6660; /* acento en texto — 6.6:1 sobre blanco (AA) */
-  --color-agua-600: #5f9690; /* intermedio, interpolado entre agua-400 y agua-800 — solo para superficies/hover, no para texto chico */
-  --color-agua-400: #8fc5c0; /* acento sobre azul-900 — 9.1:1 sobre azul-900 */
+  --color-azul-900: #0a1a2f; /* texto y bandas densas — 17.5:1 sobre blanco */
+  --color-azul-800: #12263f; /* segundo tono para degradados dentro de las bandas oscuras */
+  --color-agua-800: #2f6660; /* acento en texto sobre claro — 6.6:1 (AA) */
+  --color-agua-600: #5f9690; /* intermedio, solo superficies y hover, no texto chico */
+  --color-agua-400: #8fc5c0; /* acento sobre azul-900 — 9.1:1 */
   --color-bruma: #f3f6f6; /* fondo de página — blanco frío con traza de aqua */
+  --color-elevado: #fbfcfc; /* superficies por encima del fondo */
   --color-blanco: #ffffff;
-  --color-error: #7a2b2b; /* estado de error en toasts y validación de formulario */
+  --color-error: #7a2b2b; /* estado de error en toasts y validación */
+
+  /* Dorado muestreado del emblema del cliente. Solo se usa sobre las
+     bandas oscuras, donde da 7.4:1 sobre azul-900, para que la página
+     dialogue con el logo en vez de contradecirlo. Sobre claro el acento
+     sigue siendo agua-800, que es el único que pasa AA en texto chico. */
+  --color-oro: #c8a272;
+  --color-oro-claro: #e3cba8;
+
+  /* Tinta derivada: jerarquía de texto sin inventar grises nuevos */
+  --tinta: var(--color-azul-900);
+  --tinta-suave: color-mix(in srgb, var(--color-azul-900) 68%, var(--color-bruma));
+  --tinta-tenue: color-mix(in srgb, var(--color-azul-900) 48%, var(--color-bruma));
+  --tinta-clara: color-mix(in srgb, var(--color-blanco) 82%, transparent);
+  --tinta-clara-tenue: color-mix(in srgb, var(--color-blanco) 60%, transparent);
+
+  /* Filetes. Sobre claro derivan del azul; sobre oscuro, del dorado —
+     el filete finísimo de acento es lo que da sensación de pieza cara. */
+  --filete: color-mix(in srgb, var(--color-azul-900) 14%, transparent);
+  --filete-fuerte: color-mix(in srgb, var(--color-azul-900) 28%, transparent);
+  --filete-oro: color-mix(in srgb, var(--color-oro) 32%, transparent);
 
   /* Velo del hero: azul marino translúcido del lado del texto */
   --velo-hero: color-mix(in srgb, var(--color-azul-900) 78%, transparent);
 
   /* Sombras — azuladas y muy bajas, nunca negras puras */
-  --sombra-baja: 0 1px 3px color-mix(in srgb, var(--color-azul-900) 12%, transparent);
-  --sombra-media: 0 8px 24px color-mix(in srgb, var(--color-azul-900) 16%, transparent);
+  --sombra-baja: 0 1px 3px color-mix(in srgb, var(--color-azul-900) 10%, transparent);
+  --sombra-media: 0 8px 24px color-mix(in srgb, var(--color-azul-900) 14%, transparent);
 
-  /* Tipografía. PENDIENTE: reemplazar la pila de respaldo por Bodoni Moda
-     y Manrope self-hosted (woff2, subset latino, dos pesos por familia)
-     — no se descargó ningún archivo de fuente sin permiso explícito. */
+  /* Tipografía self-hosted (woff2, subset latino, variables).
+     Bodoni Moda para display, Manrope para cuerpo e interfaz. */
   --fuente-display: 'Bodoni Moda', 'Times New Roman', serif;
   --fuente-cuerpo: 'Manrope', system-ui, -apple-system, sans-serif;
 
-  /* Escala tipográfica. El display nunca baja de 24px (su trazo fino
-     desaparece a tamaños menores). */
-  --texto-display-1: clamp(2.5rem, 2rem + 2.2vw, 4rem);
-  --texto-display-2: clamp(1.75rem, 1.5rem + 1.2vw, 2.5rem);
-  --texto-cuerpo-grande: 1.125rem;
-  --texto-cuerpo: 1rem;
-  --texto-chico: 0.875rem;
+  /* Escala tipográfica fluida. El display nunca baja de 24px: su trazo
+     fino desaparece a tamaños menores. */
+  --texto-12: 0.75rem;
+  --texto-13: 0.8125rem;
+  --texto-15: 0.9375rem;
+  --texto-17: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --texto-20: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --texto-26: clamp(1.375rem, 1.25rem + 0.6vw, 1.625rem);
+  --texto-34: clamp(1.625rem, 1.4rem + 1.1vw, 2.125rem);
+  --texto-46: clamp(1.875rem, 1.5rem + 1.9vw, 2.875rem);
+  --texto-64: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+
+  /* Rasgos del display en mayúsculas, el gesto que carga el lujo */
+  --interletra-display: 0.06em;
+  --interletra-etiqueta: 0.18em;
+  --interlinea-display: 1.08;
 
   /* Espaciado — múltiplos de 8px, nada suelto */
   --espacio-1: 0.5rem; /* 8px */
@@ -48,14 +78,23 @@
   --espacio-7: 6rem; /* 96px */
   --espacio-8: 8rem; /* 128px */
 
+  /* Medidas de composición */
+  --ancho-contenido: 72rem;
+  --ancho-lectura: 34rem;
+  --canal: clamp(1.25rem, 4vw, 3rem); /* padding lateral fluido */
+  --riel: clamp(0rem, 4vw, 5.5rem); /* columna del rótulo vertical de sección */
+
   /* Radios de borde */
   --radio-chico: 4px;
   --radio-medio: 8px;
 
-  /* Movimiento — el único momento orquestado es loader → hero */
+  /* Movimiento. La entrada al hacer scroll es lenta y desacelerada a
+     propósito: no es el "fade-and-slide" corto y genérico. */
   --duracion-loader: 900ms;
   --duracion-transicion: 200ms;
+  --duracion-entrada: 900ms;
   --easing-estandar: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-entrada: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* prefers-reduced-motion se anula acá una sola vez: todo lo que consuma
@@ -64,5 +103,6 @@
   :root {
     --duracion-loader: 0.01ms;
     --duracion-transicion: 0.01ms;
+    --duracion-entrada: 0.01ms;
   }
 }

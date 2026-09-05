@@ -1,108 +1,183 @@
 ---
-// Hero con la imagen provista por el cliente. Decisión explícita del
-// cliente usarla tal cual, sabiendo que:
-// - trae el copy y el logo quemados en los píxeles, así que el titular
-//   visible no es texto real (por eso el <h1> va oculto visualmente pero
-//   presente para lectores de pantalla y buscadores, y el alt reproduce
-//   el texto de la imagen como pide WCAG 1.1.1 para imágenes de texto);
-// - mide 1536x1024, por debajo de los 2560px que pedía docs/brief.md;
-// - reproduce dos antipatrones ya descartados en CLAUDE.md (etiqueta en
-//   mayúsculas sostenidas y una palabra del titular en otro color).
-// Los CTA van debajo de la imagen y no encima, para no chocar con el
-// texto que la imagen ya trae.
+// Hero a sangre con velo de azul marino del lado del texto, como pide
+// docs/brief.md (sección 4).
+//
+// La imagen es el bodegón del cliente recortado por
+// scripts/preparar-hero.mjs: la original traía el titular, la bajada y el
+// logo quemados en el tercio izquierdo, lo que obligaba a esconder el
+// <h1>. Con la franja de texto fuera, el titular vuelve a ser texto real
+// en Bodoni y la imagen queda solo como imagen.
 import { Picture } from 'astro:assets';
 import Boton from '../../comunes/Boton.astro';
-import Contenedor from '../../comunes/Contenedor.astro';
-import heroImagen from '../../../activos/imagenes/hero/hero-provisorio.png';
+import { enlaceInstagram } from '../../../datos/navegacion.js';
+import heroImagen from '../../../activos/imagenes/hero/hero-productos.jpg';
 ---
 
-<section id="inicio" class="hero">
-  <h1 class="hero__titular-accesible">Piel que se nota, cuidado que se elige.</h1>
-
-  <Picture
-    class="hero__imagen"
-    src={heroImagen}
-    alt="Karika Distribution. Exclusividad que se nota, piel que brilla. Limpieza, exclusividad, resultados. Cuidado facial y corporal con fórmulas seleccionadas para resultados visibles. En la foto: Birch Juice Moisturizing Sun Cream SPF50+ de SKIN1004, la mascarilla en barra Madagascar Centella y el 345 Relief Cream Mist de Dr. Althea, sobre piedra y agua en penumbra azul marino."
-    widths={[480, 768, 1200, 1536]}
-    sizes="100vw"
-    formats={['avif', 'webp']}
-    fallbackFormat="jpg"
-    quality={72}
-    loading="eager"
-    fetchpriority="high"
-  />
-
-  <div class="hero__acciones-banda">
-    <Contenedor etiqueta="div">
-      <p class="hero__bajada">
-        Catálogo seleccionado de skincare coreano, con envíos a todo México.
-      </p>
-      <div class="hero__acciones">
-        <Boton href="#contacto">Escribir por WhatsApp</Boton>
-        <Boton href="#productos" variante="secundario">Ver catálogo</Boton>
-      </div>
-    </Contenedor>
+<section id="inicio" class="hero banda-oscura">
+  <div class="hero__figura">
+    <Picture
+      class="hero__imagen"
+      src={heroImagen}
+      alt="Protector solar Birch Juice, mascarilla Madagascar Centella y bruma 345 Relief sobre piedra oscura, con reflejos de agua"
+      widths={[480, 768, 916]}
+      sizes="(min-width: 60rem) 52vw, 100vw"
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      quality={74}
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero__velo"></div>
   </div>
+
+  <div class="hero__contenido">
+    <p class="hero__etiqueta">Distribución de skincare coreano en México</p>
+    <h1 class="hero__titular">Piel que se nota, cuidado que se elige</h1>
+    <p class="hero__bajada">
+      Catálogo seleccionado de fórmulas coreanas, con envíos a todo el país y venta al mayoreo desde
+      cinco piezas.
+    </p>
+    <div class="hero__acciones">
+      <Boton href="#productos">Ver el catálogo</Boton>
+      <Boton href={enlaceInstagram} variante="secundario" externo>Seguir en Instagram</Boton>
+    </div>
+  </div>
+
+  <a class="hero__indicador" href="#propuesta" aria-label="Ir al contenido">
+    <span class="hero__indicador-linea"></span>
+    Desliza para descubrir
+  </a>
 </section>
 
 <style>
   .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    isolation: isolate;
     background-color: var(--color-azul-900);
+    overflow: hidden;
   }
 
-  /* El titular visible vive dentro de la imagen; este <h1> mantiene la
-     jerarquía del documento para lectores de pantalla y buscadores. */
-  .hero__titular-accesible {
+  /* En móvil la foto es el fondo de toda la sección; en escritorio pasa a
+     ocupar la mitad derecha, que le sienta mejor a una toma vertical y
+     evita agrandarla de más. */
+  .hero__figura {
     position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+    inset: 0;
+    z-index: -1;
   }
 
   .hero__imagen {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% center;
   }
 
-  .hero__acciones-banda {
-    padding-block: var(--espacio-4);
-    background-color: var(--color-azul-900);
+  /* En móvil el velo se densifica hacia abajo: deja respirar la foto
+     arriba y garantiza contraste donde cae el texto. */
+  .hero__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-azul-900) 62%, transparent) 0%,
+      color-mix(in srgb, var(--color-azul-900) 86%, transparent) 38%,
+      color-mix(in srgb, var(--color-azul-900) 95%, transparent) 100%
+    );
+  }
+
+  .hero__contenido {
+    position: relative;
+    width: 100%;
+    max-width: var(--ancho-contenido);
+    margin-inline: auto;
+    padding: calc(var(--espacio-8) + var(--espacio-2)) var(--canal) var(--espacio-7);
+  }
+
+  @media (min-width: 60rem) {
+    .hero__figura {
+      left: auto;
+      width: 52%;
+    }
+
+    .hero__imagen {
+      object-position: 55% center;
+    }
+
+    /* Sobre escritorio el velo solo difumina la costura con el bloque de
+       texto, para que no se lea como un recorte pegado. */
+    .hero__velo {
+      background: linear-gradient(
+        90deg,
+        var(--color-azul-900) 0%,
+        color-mix(in srgb, var(--color-azul-900) 55%, transparent) 22%,
+        transparent 55%
+      );
+    }
+
+    .hero__contenido {
+      padding-right: 50%;
+    }
+  }
+
+  .hero__etiqueta {
+    font-size: var(--texto-15);
+    color: var(--color-oro);
+    margin-bottom: var(--espacio-3);
+  }
+
+  .hero__titular {
+    /* Un punto por debajo de la escala mayor: en versalitas espaciadas,
+       "CUIDADO" necesita mucho ancho y si no rompe en cinco renglones. */
+    font-size: clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
     color: var(--color-blanco);
+    max-width: 13ch;
+    text-wrap: balance;
   }
 
   .hero__bajada {
-    font-size: var(--texto-cuerpo-grande);
-    max-width: 40ch;
-    color: color-mix(in srgb, var(--color-blanco) 88%, transparent);
+    margin-top: var(--espacio-3);
+    max-width: 38ch;
+    font-size: var(--texto-20);
+    color: var(--tinta-clara);
   }
 
   .hero__acciones {
     display: flex;
     flex-wrap: wrap;
     gap: var(--espacio-2);
-    margin-top: var(--espacio-3);
+    margin-top: var(--espacio-5);
   }
 
-  .hero__acciones :global(.boton) {
-    background-color: var(--color-agua-800);
-    border-color: var(--color-agua-800);
+  .hero__indicador {
+    position: absolute;
+    left: 50%;
+    bottom: var(--espacio-4);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-2);
+    font-size: var(--texto-13);
+    letter-spacing: 0.08em;
+    color: var(--tinta-clara-tenue);
+    text-decoration: none;
   }
 
-  .hero__acciones :global(.boton:hover) {
-    background-color: var(--color-agua-600);
-    border-color: var(--color-agua-600);
+  .hero__indicador-linea {
+    display: block;
+    width: 1px;
+    height: 2.25rem;
+    background: linear-gradient(to bottom, transparent, var(--color-oro));
   }
 
-  .hero__acciones :global(.boton--secundario) {
-    background-color: transparent;
-    color: var(--color-blanco);
-    border-color: color-mix(in srgb, var(--color-blanco) 60%, transparent);
-  }
-
-  .hero__acciones :global(.boton--secundario:hover) {
-    background-color: color-mix(in srgb, var(--color-blanco) 12%, transparent);
-    border-color: var(--color-blanco);
+  @media (max-width: 60rem) {
+    .hero__imagen {
+      object-position: 58% 30%;
+    }
   }
 </style>

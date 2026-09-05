@@ -1,27 +1,21 @@
-// Los cuatro datos que el brief pide destacar (docs/brief.md, sección 1 y
-// 4). Sin marcadores numerados: no son una secuencia.
+// Datos que la página destaca. Todos salen de las fichas que entregó el
+// cliente (src/activos/imagenes/productos/), ninguno está inventado.
 //
-// El primer punto ya no dice "Exclusividad" con una frase genérica: las
-// fichas del cliente traen un dato concreto — "venta al mayoreo desde 5
-// piezas" — que dice mucho más. La exclusividad la carga el diseño, como
-// pide el propio brief, no una oración que la nombre.
+// Se cayó "Ubicación": el cliente confirmó que no tienen local físico y
+// trabajan solo con envíos, así que el punto dejó de existir.
 //
-// PENDIENTE: alcance real de la garantía y dirección exacta — ver
-// docs/brief.md, pendientes 1 y 3. No se afirma "garantía de 5 años" sin
-// aclarar qué cubre, para no restar credibilidad sobre un producto con
-// fecha de caducidad.
+// Se cayó también "Garantía de hasta 5 años". Ese dato venía del brief,
+// pero aparece tal cual en Oro & Glow, la página de joyería que el
+// cliente pasó como referencia — donde una garantía de 5 años sí tiene
+// sentido. Sobre cremas y protector solar, que caducan, no lo tiene.
+// Hasta que el cliente aclare qué cubre, no se publica.
+// Ver docs/brief.md, pendiente 1.
 
 export const listaBeneficios = [
   {
     id: 'mayoreo',
-    titulo: 'Venta al mayoreo desde 5 piezas',
-    descripcion: 'Pedido mínimo de cinco piezas, con atención personalizada.',
-  },
-  {
-    id: 'garantia',
-    titulo: 'Garantía',
-    descripcion:
-      'PENDIENTE: confirmar con el cliente qué cubre la garantía (satisfacción, vida útil sin abrir, u otro alcance) antes de publicar un plazo.',
+    titulo: 'Mayoreo desde 5 piezas',
+    descripcion: 'Pedido mínimo de cinco piezas, pensado para quien revende.',
   },
   {
     id: 'envios',
@@ -29,8 +23,13 @@ export const listaBeneficios = [
     descripcion: 'Hacemos llegar el pedido a cualquier punto de la República.',
   },
   {
-    id: 'ubicacion',
-    titulo: 'Ubicación',
-    descripcion: 'PENDIENTE: dirección exacta del local (docs/brief.md, pendiente 3).',
+    id: 'existencia',
+    titulo: 'En existencia',
+    descripcion: 'Lo que está en el catálogo está disponible, con envío inmediato.',
+  },
+  {
+    id: 'atencion',
+    titulo: 'Atención personalizada',
+    descripcion: 'Te acompañamos por Instagram, pedido por pedido.',
   },
 ];

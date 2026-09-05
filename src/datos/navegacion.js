@@ -1,16 +1,18 @@
-// Enlaces del encabezado y del pie. Instagram confirmado en docs/brief.md.
-// WhatsApp queda PENDIENTE: falta el número de WhatsApp Business del
-// cliente (docs/brief.md, pendiente 5).
+// Enlaces del encabezado y del pie.
+//
+// Ya no hay entrada de "Ubicación": el cliente confirmó que no tienen
+// local físico y trabajan solo con envíos a todo México.
+//
+// Instagram es hoy el único canal de contacto, por pedido del cliente.
+// Sigue sin haber número de WhatsApp Business ni correo (docs/brief.md,
+// pendiente 5).
 
 export const enlacesNavegacion = [
-  { etiqueta: 'Inicio', href: '#inicio' },
-  { etiqueta: 'Productos', href: '#productos' },
-  { etiqueta: 'Beneficios', href: '#beneficios' },
-  { etiqueta: 'Ubicación', href: '#ubicacion' },
+  { etiqueta: 'La marca', href: '#propuesta' },
+  { etiqueta: 'Catálogo', href: '#productos' },
+  { etiqueta: 'Por qué Karika', href: '#beneficios' },
   { etiqueta: 'Contacto', href: '#contacto' },
 ];
 
-export const enlaceInstagram = 'https://instagram.com/karika.distribution';
-
-// PENDIENTE: reemplazar por el número real en formato wa.me/52XXXXXXXXXX
-export const enlaceWhatsapp = null;
+export const enlaceInstagram = 'https://www.instagram.com/karika.distribution/?hl=es';
+export const usuarioInstagram = '@karika.distribution';

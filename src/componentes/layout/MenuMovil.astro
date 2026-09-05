@@ -1,18 +1,21 @@
 ---
-// Panel de navegación móvil. Sin React: es un <dialog> nativo controlado
-// con JS plano, con lo que el foco atrapado y el cierre con Escape vienen
-// gratis del elemento.
-import { enlacesNavegacion } from '../../datos/navegacion.js';
+// Panel de navegación móvil. Sin framework: es un <dialog> nativo
+// controlado con JS plano, con lo que el foco atrapado y el cierre con
+// Escape vienen gratis del elemento.
+import Logo from '../marca/Logo.astro';
+import { enlacesNavegacion, enlaceInstagram, usuarioInstagram } from '../../datos/navegacion.js';
 ---
 
-<dialog id="menu-movil" class="menu-movil" aria-label="Menú de navegación">
-  <div class="menu-movil__encabezado">
-    <button type="button" class="menu-movil__cerrar" data-cerrar-menu aria-label="Cerrar menú">
-      ✕
+<dialog id="menu-movil" class="menu banda-oscura" aria-label="Menú de navegación">
+  <div class="menu__encabezado">
+    <Logo tamano={40} decorativo />
+    <button type="button" class="menu__cerrar" data-cerrar-menu aria-label="Cerrar menú">
+      <span aria-hidden="true">✕</span>
     </button>
   </div>
+
   <nav aria-label="Navegación móvil">
-    <ul class="menu-movil__lista">
+    <ul class="menu__lista">
       {
         enlacesNavegacion.map((enlace) => (
           <li>
@@ -24,6 +27,10 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
       }
     </ul>
   </nav>
+
+  <a class="menu__instagram" href={enlaceInstagram} target="_blank" rel="noopener noreferrer">
+    {usuarioInstagram}
+  </a>
 </dialog>
 
 <script>
@@ -37,10 +44,9 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
       botonAbrir.setAttribute('aria-expanded', 'true');
     });
 
-    // No confiamos solo en el evento "close" del <dialog> para resetear
-    // aria-expanded: en el cierre explícito (botón o click en el backdrop)
-    // lo actualizamos directo. El listener de "close" queda como respaldo
-    // para el cierre nativo con la tecla Escape, que no pasa por `cerrar`.
+    // No confiamos solo en el evento "close" para resetear aria-expanded:
+    // en el cierre explícito lo actualizamos directo. El listener queda
+    // como respaldo para el cierre nativo con Escape.
     const cerrar = () => {
       dialogo.close();
       botonAbrir.setAttribute('aria-expanded', 'false');
@@ -59,52 +65,69 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
 </script>
 
 <style>
-  .menu-movil {
+  .menu {
     border: none;
-    padding: var(--espacio-3);
+    padding: var(--espacio-3) var(--canal) var(--espacio-6);
     width: 100%;
     height: 100%;
     max-width: none;
     max-height: none;
     margin: 0;
-    background-color: var(--color-bruma);
+    background: linear-gradient(168deg, var(--color-azul-900), var(--color-azul-800));
+    color: var(--tinta-clara);
+    display: flex;
+    flex-direction: column;
   }
 
-  .menu-movil::backdrop {
+  .menu::backdrop {
     background-color: var(--velo-hero);
   }
 
-  .menu-movil__encabezado {
+  .menu__encabezado {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .menu-movil__cerrar {
+  .menu__cerrar {
     background: none;
-    border: none;
-    font-size: var(--texto-cuerpo-grande);
+    border: 1px solid var(--filete-oro);
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: inherit;
     cursor: pointer;
-    padding: var(--espacio-1);
   }
 
-  .menu-movil__lista {
+  .menu__lista {
     list-style: none;
-    margin: var(--espacio-4) 0 0;
+    margin: var(--espacio-6) 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-3);
+    gap: var(--espacio-4);
+  }
+
+  .menu__lista a {
     font-family: var(--fuente-display);
-    font-size: var(--texto-display-2);
-  }
-
-  .menu-movil__lista a {
+    font-size: var(--texto-34);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
     text-decoration: none;
-    color: var(--color-azul-900);
+    color: var(--color-blanco);
   }
 
-  @media (min-width: 56rem) {
-    .menu-movil {
+  .menu__instagram {
+    margin-top: auto;
+    padding-top: var(--espacio-4);
+    border-top: 1px solid var(--filete-oro);
+    font-size: var(--texto-15);
+    color: var(--color-oro);
+    text-decoration: none;
+  }
+
+  @media (min-width: 60rem) {
+    .menu {
       display: none;
     }
   }

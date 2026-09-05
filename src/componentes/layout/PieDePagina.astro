@@ -1,70 +1,106 @@
 ---
-// Pie: redes, aviso de privacidad y razón social.
+// Pie: emblema, Instagram y aviso de privacidad.
 // PENDIENTE (docs/brief.md, pendiente 7): razón social y RFC reales.
-import Contenedor from '../comunes/Contenedor.astro';
-import { enlaceInstagram } from '../../datos/navegacion.js';
+// Ya no se lista una dirección: no hay local físico.
+import Logo from '../marca/Logo.astro';
+import { enlaceInstagram, usuarioInstagram } from '../../datos/navegacion.js';
 
 const anio = new Date().getFullYear();
 ---
 
-<footer class="pie">
-  <Contenedor etiqueta="div">
-    <div class="pie__fila">
-      <p class="pie__razon-social">
-        PENDIENTE: razón social y RFC (docs/brief.md, pendiente 7) — © {anio} Karika
-      </p>
-
-      <a
-        class="pie__instagram"
-        href={enlaceInstagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-evento="clic_instagram"
-      >
-        Instagram
-      </a>
+<footer class="pie banda-oscura">
+  <div class="pie__interior">
+    <div class="pie__marca">
+      <Logo tamano={56} decorativo />
+      <div>
+        <p class="pie__nombre">Karika</p>
+        <p class="pie__lema">Distribución de skincare coreano · Envíos a todo México</p>
+      </div>
     </div>
 
-    <p class="pie__aviso">
-      Aviso de privacidad — PENDIENTE: texto completo conforme a la LFPDPPP mexicana (docs/brief.md,
-      sección 2).
+    <a
+      class="pie__instagram"
+      href={enlaceInstagram}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-evento="clic_instagram"
+    >
+      {usuarioInstagram}
+    </a>
+  </div>
+
+  <div class="pie__legal">
+    <p>PENDIENTE: razón social y RFC (docs/brief.md, pendiente 7)</p>
+    <p>
+      Aviso de privacidad — PENDIENTE: texto conforme a la LFPDPPP. © {anio} Karika
     </p>
-  </Contenedor>
+  </div>
 </footer>
 
 <style>
   .pie {
     background-color: var(--color-azul-900);
-    color: var(--color-blanco);
-    padding-block: var(--espacio-4);
-    margin-top: var(--espacio-7);
+    color: var(--tinta-clara);
+    padding-block: var(--espacio-6) var(--espacio-4);
   }
 
-  .pie__fila {
+  .pie__interior,
+  .pie__legal {
+    width: 100%;
+    max-width: var(--ancho-contenido);
+    margin-inline: auto;
+    padding-inline: var(--canal);
+  }
+
+  .pie__interior {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--espacio-2);
+    align-items: center;
     justify-content: space-between;
-    align-items: baseline;
+    gap: var(--espacio-4);
+    flex-wrap: wrap;
+    padding-bottom: var(--espacio-4);
+    border-bottom: 1px solid var(--filete-oro);
   }
 
-  .pie__razon-social {
-    font-size: var(--texto-chico);
-    color: color-mix(in srgb, var(--color-blanco) 80%, transparent);
+  .pie__marca {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-3);
+  }
+
+  .pie__nombre {
+    font-family: var(--fuente-display);
+    font-size: var(--texto-26);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
+    color: var(--color-blanco);
+  }
+
+  .pie__lema {
+    margin-top: var(--espacio-1);
+    font-size: var(--texto-15);
+    color: var(--tinta-clara-tenue);
   }
 
   .pie__instagram {
-    color: var(--color-agua-400);
+    font-size: var(--texto-17);
+    color: var(--color-oro);
     text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duracion-transicion) var(--easing-estandar);
   }
 
   .pie__instagram:hover {
-    text-decoration: underline;
+    border-bottom-color: var(--color-oro);
   }
 
-  .pie__aviso {
-    margin-top: var(--espacio-2);
-    font-size: var(--texto-chico);
-    color: color-mix(in srgb, var(--color-blanco) 65%, transparent);
+  .pie__legal {
+    margin-top: var(--espacio-4);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espacio-2);
+    flex-wrap: wrap;
+    font-size: var(--texto-13);
+    color: color-mix(in srgb, var(--color-blanco) 45%, transparent);
   }
 </style>

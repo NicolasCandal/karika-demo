@@ -1,30 +1,33 @@
 ---
 // Carrusel con CSS scroll-snap puro: cero framework de cliente, inercia
-// nativa en móvil (docs/brief.md, sección 4). Sin autoplay todavía — el
-// brief lo deja para cuando se migre a Embla si hace falta loop/autoplay.
-// El único JS es el de esta página: mover el scroll con los botones y
-// anunciar el producto visible por aria-live.
-// La tarjeta muestra el recorte del envase; la ficha completa del
-// cliente (que trae el copy quemado, ilegible a 272px) se abre en un
-// <dialog> nativo, con el mismo patrón sin framework que MenuMovil.
+// nativa en móvil (docs/brief.md, sección 4). Sin autoplay — el brief lo
+// deja para cuando se migre a Embla, si hace falta loop.
+//
+// Las tarjetas ya no llevan sombra ni fondo propio: son la foto del
+// envase sobre un filete finísimo, para no caer en el antipatrón de
+// "tarjetas idénticas con el mismo radio y la misma sombra gris".
 import { Picture } from 'astro:assets';
-import Contenedor from '../../comunes/Contenedor.astro';
-import Titulo from '../../comunes/Titulo.astro';
+import Seccion from '../../comunes/Seccion.astro';
+import EncabezadoSeccion from '../../comunes/EncabezadoSeccion.astro';
 import { listaProductos } from '../../../datos/productos.js';
 ---
 
-<section id="productos" class="carrusel">
-  <Contenedor etiqueta="div">
-    <Titulo nivel={2}>Catálogo</Titulo>
+<Seccion id="productos" rotulo="Catálogo" tono="claro">
+  <div class="carrusel__encabezado">
+    <EncabezadoSeccion
+      etiqueta="Lo que distribuimos"
+      titulo="Una selección, no un depósito"
+      bajada="Fórmulas elegidas una por una. Escríbenos por Instagram para precios y disponibilidad."
+    />
 
-    <div class="carrusel__controles">
+    <div class="carrusel__controles entrada">
       <button
         type="button"
         class="carrusel__boton"
         data-carrusel-anterior
         aria-label="Producto anterior"
       >
-        ‹
+        <span aria-hidden="true">←</span>
       </button>
       <button
         type="button"
@@ -32,68 +35,38 @@ import { listaProductos } from '../../../datos/productos.js';
         data-carrusel-siguiente
         aria-label="Producto siguiente"
       >
-        ›
+        <span aria-hidden="true">→</span>
       </button>
     </div>
+  </div>
 
-    <p class="visualmente-oculto" aria-live="polite" data-carrusel-anuncio></p>
+  <p class="visualmente-oculto" aria-live="polite" data-carrusel-anuncio></p>
 
-    <ul class="carrusel__lista" tabindex="0" aria-label="Lista de productos" data-carrusel-lista>
-      {
-        listaProductos.map((producto) => (
-          <li class="carrusel__item" data-carrusel-item data-nombre={producto.nombre}>
-            <Picture
-              class="carrusel__imagen"
-              src={producto.imagen}
-              alt={`${producto.marca} ${producto.nombre}, ${producto.presentacion}`}
-              widths={[300, 600, 750]}
-              sizes="(min-width: 48rem) 18rem, 70vw"
-              formats={['avif', 'webp']}
-              fallbackFormat="jpg"
-              quality={72}
-              loading="lazy"
-            />
-            <p class="carrusel__marca">
-              {producto.marca} · {producto.presentacion}
-            </p>
-            <h3 class="carrusel__nombre">{producto.nombre}</h3>
-            <p class="carrusel__descripcion">{producto.descripcion}</p>
-            <p class="carrusel__precio">{producto.precio ?? 'Precio: consultar por WhatsApp'}</p>
-            <button
-              type="button"
-              class="carrusel__ver-ficha"
-              data-abrir-ficha={producto.id}
-              aria-haspopup="dialog"
-            >
-              Ver ficha completa
-            </button>
-          </li>
-        ))
-      }
-    </ul>
-  </Contenedor>
-
-  {
-    listaProductos.map((producto) => (
-      <dialog class="ficha" id={`ficha-${producto.id}`} aria-label={`Ficha de ${producto.nombre}`}>
-        <button type="button" class="ficha__cerrar" data-cerrar-ficha aria-label="Cerrar ficha">
-          ✕
-        </button>
-        <Picture
-          class="ficha__imagen"
-          src={producto.ficha}
-          alt={`Ficha de ${producto.marca} ${producto.nombre}, ${producto.presentacion}. ${producto.descripcion} Venta al mayoreo desde 5 piezas, envíos dentro de la República y atención personalizada.`}
-          widths={[480, 960, 1440]}
-          sizes="(min-width: 48rem) 40rem, 90vw"
-          formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-          quality={72}
-          loading="lazy"
-        />
-      </dialog>
-    ))
-  }
-</section>
+  <ul class="carrusel__lista" tabindex="0" aria-label="Lista de productos" data-carrusel-lista>
+    {
+      listaProductos.map((producto) => (
+        <li class="carrusel__item entrada" data-carrusel-item data-nombre={producto.nombre}>
+          <Picture
+            class="carrusel__imagen"
+            src={producto.imagen}
+            alt={`${producto.marca} ${producto.nombre}, ${producto.presentacion}`}
+            widths={[300, 600, 750]}
+            sizes="(min-width: 60rem) 18rem, 70vw"
+            formats={['avif', 'webp']}
+            fallbackFormat="jpg"
+            quality={72}
+            loading="lazy"
+          />
+          <p class="carrusel__marca">
+            {producto.marca} · {producto.presentacion}
+          </p>
+          <h3 class="carrusel__nombre">{producto.nombre}</h3>
+          <p class="carrusel__descripcion">{producto.descripcion}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>
 
 <script>
   const lista = document.querySelector<HTMLUListElement>('[data-carrusel-lista]');
@@ -104,12 +77,23 @@ import { listaProductos } from '../../../datos/productos.js';
   if (lista && botonAnterior && botonSiguiente) {
     const desplazar = (direccion: 1 | -1) => {
       const item = lista.querySelector<HTMLElement>('[data-carrusel-item]');
-      const ancho = item ? item.getBoundingClientRect().width + 16 : lista.clientWidth;
+      const ancho = item ? item.getBoundingClientRect().width + 24 : lista.clientWidth;
       lista.scrollBy({ left: ancho * direccion, behavior: 'smooth' });
     };
 
     botonAnterior.addEventListener('click', () => desplazar(-1));
     botonSiguiente.addEventListener('click', () => desplazar(1));
+
+    // Los botones se apagan en los extremos en vez de quedar activos sin efecto.
+    const actualizarExtremos = () => {
+      const margen = 8;
+      botonAnterior.disabled = lista.scrollLeft <= margen;
+      botonSiguiente.disabled = lista.scrollLeft + lista.clientWidth >= lista.scrollWidth - margen;
+    };
+
+    actualizarExtremos();
+    lista.addEventListener('scroll', actualizarExtremos, { passive: true });
+    window.addEventListener('resize', actualizarExtremos);
   }
 
   if (lista && anuncio) {
@@ -126,59 +110,47 @@ import { listaProductos } from '../../../datos/productos.js';
 
     items.forEach((item) => observador.observe(item));
   }
-
-  // Diálogo de ficha completa. Igual que en MenuMovil, el cierre explícito
-  // actualiza el estado a mano en vez de depender del evento "close".
-  document.querySelectorAll<HTMLButtonElement>('[data-abrir-ficha]').forEach((boton) => {
-    const id = boton.getAttribute('data-abrir-ficha');
-    const dialogo = document.getElementById(`ficha-${id}`) as HTMLDialogElement | null;
-    if (!dialogo) return;
-
-    boton.addEventListener('click', () => dialogo.showModal());
-
-    dialogo
-      .querySelectorAll<HTMLElement>('[data-cerrar-ficha]')
-      .forEach((cerrar) => cerrar.addEventListener('click', () => dialogo.close()));
-
-    dialogo.addEventListener('click', (evento) => {
-      if (evento.target === dialogo) dialogo.close();
-    });
-  });
 </script>
 
 <style>
-  .carrusel {
-    padding-block: var(--espacio-7);
+  .carrusel__encabezado {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--espacio-4);
+    flex-wrap: wrap;
   }
 
   .carrusel__controles {
     display: flex;
-    justify-content: flex-end;
     gap: var(--espacio-1);
-    margin-top: var(--espacio-3);
+    margin-bottom: var(--espacio-6);
   }
 
   .carrusel__boton {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
-    border: 1px solid var(--color-azul-900);
-    background: var(--color-blanco);
-    font-size: var(--texto-cuerpo-grande);
+    border: 1px solid var(--filete-fuerte);
+    background: none;
+    color: var(--tinta);
+    font-size: var(--texto-17);
     cursor: pointer;
+    transition:
+      background-color var(--duracion-transicion) var(--easing-estandar),
+      border-color var(--duracion-transicion) var(--easing-estandar),
+      opacity var(--duracion-transicion) var(--easing-estandar);
   }
 
-  .carrusel__boton:hover {
-    background-color: var(--color-agua-400);
+  .carrusel__boton:hover:not(:disabled) {
+    background-color: var(--color-azul-900);
+    border-color: var(--color-azul-900);
+    color: var(--color-blanco);
   }
 
-  .visualmente-oculto {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+  .carrusel__boton:disabled {
+    opacity: 0.3;
+    cursor: default;
   }
 
   .carrusel__lista {
@@ -186,21 +158,21 @@ import { listaProductos } from '../../../datos/productos.js';
     gap: var(--espacio-3);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scrollbar-width: none;
     list-style: none;
-    margin: var(--espacio-2) 0 0;
+    margin: 0;
     padding: 0 0 var(--espacio-2);
+  }
+
+  .carrusel__lista::-webkit-scrollbar {
+    display: none;
   }
 
   .carrusel__item {
     scroll-snap-align: start;
-    flex: 0 0 min(80%, 20rem);
-    background-color: var(--color-blanco);
-    border-radius: var(--radio-medio);
-    box-shadow: var(--sombra-baja);
-    padding: var(--espacio-3);
+    flex: 0 0 min(70%, 18rem);
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-1);
   }
 
   .carrusel__imagen {
@@ -208,79 +180,30 @@ import { listaProductos } from '../../../datos/productos.js';
     height: auto;
     aspect-ratio: 3 / 4;
     object-fit: cover;
+    border: 1px solid var(--filete);
     border-radius: var(--radio-chico);
-    background-color: var(--color-bruma);
-  }
-
-  .carrusel__ver-ficha {
-    margin-top: var(--espacio-2);
-    align-self: start;
-    background: none;
-    border: 1px solid var(--color-agua-800);
-    color: var(--color-agua-800);
-    border-radius: var(--radio-chico);
-    padding: var(--espacio-1) var(--espacio-2);
-    font-size: var(--texto-chico);
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .carrusel__ver-ficha:hover {
-    background-color: var(--color-agua-800);
-    color: var(--color-blanco);
-  }
-
-  .ficha {
-    border: none;
-    padding: 0;
-    max-width: min(90vw, 40rem);
-    max-height: 90vh;
-    background-color: var(--color-blanco);
-    border-radius: var(--radio-medio);
-    overflow: hidden;
-  }
-
-  .ficha::backdrop {
-    background-color: var(--velo-hero);
-  }
-
-  .ficha__cerrar {
-    position: absolute;
-    top: var(--espacio-1);
-    right: var(--espacio-1);
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--color-blanco);
-    box-shadow: var(--sombra-baja);
-    cursor: pointer;
-  }
-
-  .ficha__imagen {
-    display: block;
-    width: 100%;
-    height: auto;
+    background-color: var(--color-elevado);
   }
 
   .carrusel__marca {
-    font-size: var(--texto-chico);
+    margin-top: var(--espacio-3);
+    font-size: var(--texto-13);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--color-agua-800);
   }
 
   .carrusel__nombre {
+    margin-top: var(--espacio-1);
     font-family: var(--fuente-cuerpo);
-    font-size: var(--texto-cuerpo-grande);
-    font-weight: 700;
+    font-size: var(--texto-17);
+    font-weight: 600;
+    line-height: 1.35;
   }
 
   .carrusel__descripcion {
-    font-size: var(--texto-chico);
-    color: color-mix(in srgb, var(--color-azul-900) 75%, transparent);
-  }
-
-  .carrusel__precio {
-    margin-top: auto;
-    font-weight: 600;
+    margin-top: var(--espacio-1);
+    font-size: var(--texto-15);
+    color: var(--tinta-suave);
   }
 </style>

@@ -1,56 +1,70 @@
 ---
-// Los cuatro datos obligatorios (docs/brief.md, sección 4). Sin
-// marcadores numerados: no es una secuencia, y evitamos el antipatrón de
-// "01 / 02 / 03" en contenido que no lo es.
-import Contenedor from '../../comunes/Contenedor.astro';
-import Titulo from '../../comunes/Titulo.astro';
+// Banda oscura con los cuatro datos que la marca quiere que queden.
+// Sin marcadores numerados: no son una secuencia. Cada punto se apoya en
+// un filete dorado finísimo, no en una tarjeta con sombra.
+import Seccion from '../../comunes/Seccion.astro';
+import EncabezadoSeccion from '../../comunes/EncabezadoSeccion.astro';
 import { listaBeneficios } from '../../../datos/beneficios.js';
 ---
 
-<section id="beneficios" class="beneficios">
-  <Contenedor etiqueta="div">
-    <Titulo nivel={2}>Por qué Karika</Titulo>
-    <ul class="beneficios__lista">
-      {
-        listaBeneficios.map((beneficio) => (
-          <li class="beneficios__item">
-            <h3 class="beneficios__titulo">{beneficio.titulo}</h3>
-            <p class="beneficios__descripcion">{beneficio.descripcion}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </Contenedor>
-</section>
+<Seccion id="beneficios" rotulo="Cómo trabajamos" tono="oscuro">
+  <EncabezadoSeccion
+    etiqueta="Por qué Karika"
+    titulo="Distribuir bien es un oficio"
+    bajada="Trabajamos con volumen chico y trato directo, para que cada pedido llegue completo y a tiempo."
+  />
+
+  <ul class="beneficios">
+    {
+      listaBeneficios.map((beneficio) => (
+        <li class="beneficios__item entrada">
+          <h3 class="beneficios__titulo">{beneficio.titulo}</h3>
+          <p class="beneficios__descripcion">{beneficio.descripcion}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>
 
 <style>
   .beneficios {
-    padding-block: var(--espacio-7);
-    background-color: color-mix(in srgb, var(--color-agua-400) 12%, var(--color-bruma));
-  }
-
-  .beneficios__lista {
-    margin-top: var(--espacio-4);
-    display: grid;
-    gap: var(--espacio-4);
     list-style: none;
+    margin: 0;
     padding: 0;
+    display: grid;
+    gap: var(--espacio-5);
   }
 
   @media (min-width: 48rem) {
-    .beneficios__lista {
+    .beneficios {
       grid-template-columns: repeat(2, 1fr);
+      column-gap: var(--espacio-6);
     }
   }
 
+  @media (min-width: 72rem) {
+    .beneficios {
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: var(--espacio-4);
+    }
+  }
+
+  .beneficios__item {
+    border-top: 1px solid var(--filete-oro);
+    padding-top: var(--espacio-3);
+  }
+
   .beneficios__titulo {
-    font-family: var(--fuente-cuerpo);
-    font-size: var(--texto-cuerpo-grande);
-    font-weight: 700;
+    font-family: var(--fuente-display);
+    font-size: var(--texto-20);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
+    color: var(--color-oro-claro);
   }
 
   .beneficios__descripcion {
-    margin-top: var(--espacio-1);
-    color: color-mix(in srgb, var(--color-azul-900) 85%, transparent);
+    margin-top: var(--espacio-2);
+    font-size: var(--texto-15);
+    color: var(--tinta-clara-tenue);
   }
 </style>

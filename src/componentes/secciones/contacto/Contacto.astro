@@ -1,28 +1,47 @@
 ---
-// WhatsApp como acción principal, con formulario de respaldo
-// (docs/brief.md, sección 4). El formulario hidrata con client:visible,
-// como pide CLAUDE.md para todo lo que no sea el loader.
-import Contenedor from '../../comunes/Contenedor.astro';
-import Titulo from '../../comunes/Titulo.astro';
-import { Formulario } from './Formulario.jsx';
+// Contacto reducido a Instagram por pedido del cliente: por ahora es el
+// único canal. Se retiraron el formulario, el WhatsApp y el "copiar
+// teléfono", que dependían de datos que además nunca llegaron
+// (docs/brief.md, pendiente 5).
+//
+// Al no quedar estado de cliente en esta sección, ya no hay isla: es
+// HTML estático y el sitio no envía JS por este bloque.
+import Seccion from '../../comunes/Seccion.astro';
+import EncabezadoSeccion from '../../comunes/EncabezadoSeccion.astro';
+import Boton from '../../comunes/Boton.astro';
+import { enlaceInstagram, usuarioInstagram } from '../../../datos/navegacion.js';
 ---
 
-<section id="contacto" class="contacto">
-  <Contenedor etiqueta="div">
-    <Titulo nivel={2}>Contacto</Titulo>
-    <p class="contacto__bajada">Escribinos por WhatsApp o dejanos tus datos acá abajo.</p>
-    <Formulario client:visible />
-  </Contenedor>
-</section>
+<Seccion id="contacto" rotulo="Contacto" tono="oscuro" class="contacto">
+  <div class="contacto__caja">
+    <EncabezadoSeccion
+      etiqueta="Atención personalizada"
+      titulo="Hablemos de tu pedido"
+      bajada="Escríbenos por Instagram para conocer precios, disponibilidad y condiciones de mayoreo."
+    />
+
+    <div class="contacto__acciones entrada">
+      <Boton href={enlaceInstagram} externo class="contacto__cta">Escríbenos por Instagram</Boton>
+      <p class="contacto__usuario">{usuarioInstagram}</p>
+    </div>
+  </div>
+</Seccion>
 
 <style>
-  .contacto {
-    padding-block: var(--espacio-7);
+  .contacto__caja {
+    max-width: 46rem;
   }
 
-  .contacto__bajada {
-    margin-top: var(--espacio-2);
-    margin-bottom: var(--espacio-4);
-    color: color-mix(in srgb, var(--color-azul-900) 85%, transparent);
+  .contacto__acciones {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-3);
+    flex-wrap: wrap;
+  }
+
+  .contacto__usuario {
+    font-size: var(--texto-15);
+    letter-spacing: 0.04em;
+    color: var(--tinta-clara-tenue);
   }
 </style>

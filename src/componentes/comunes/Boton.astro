@@ -1,20 +1,28 @@
 ---
-// Botón/enlace con dos variantes visuales. Si recibe `href` renderiza <a>,
-// si no, <button> — para no forzar un <a> sin destino real.
+// Botón/enlace con dos variantes. Si recibe `href` renderiza <a>, si no,
+// <button> — para no forzar un <a> sin destino real.
+//
+// Sobre `.banda-oscura` las variantes se invierten solas: el primario
+// pasa a dorado (el color del emblema) y el secundario a filete claro.
+// Sin flechas pegadas al texto: es uno de los antipatrones de CLAUDE.md.
 interface Props {
   href?: string;
   variante?: 'primario' | 'secundario';
   tipo?: 'button' | 'submit';
+  externo?: boolean;
+  class?: string;
 }
 
-const { href, variante = 'primario', tipo = 'button' } = Astro.props;
+const { href, variante = 'primario', tipo = 'button', externo = false, class: clase } = Astro.props;
 const Etiqueta = href ? 'a' : 'button';
 ---
 
 <Etiqueta
-  class:list={['boton', variante === 'secundario' && 'boton--secundario']}
+  class:list={['boton', `boton--${variante}`, clase]}
   href={href}
   type={href ? undefined : tipo}
+  target={externo ? '_blank' : undefined}
+  rel={externo ? 'noopener noreferrer' : undefined}
 >
   <slot />
 </Etiqueta>
@@ -24,31 +32,62 @@ const Etiqueta = href ? 'a' : 'button';
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--espacio-1);
-    padding: var(--espacio-2) var(--espacio-3);
+    padding: var(--espacio-2) var(--espacio-4);
     border-radius: var(--radio-chico);
-    border: 1px solid var(--color-azul-900);
-    background-color: var(--color-azul-900);
-    color: var(--color-blanco);
+    border: 1px solid transparent;
     font-family: var(--fuente-cuerpo);
-    font-size: var(--texto-cuerpo);
+    font-size: var(--texto-15);
     font-weight: 600;
+    line-height: 1.2;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color var(--duracion-transicion) var(--easing-estandar);
+    transition:
+      background-color var(--duracion-transicion) var(--easing-estandar),
+      border-color var(--duracion-transicion) var(--easing-estandar),
+      color var(--duracion-transicion) var(--easing-estandar);
   }
 
-  .boton:hover {
+  .boton--primario {
+    background-color: var(--color-azul-900);
+    border-color: var(--color-azul-900);
+    color: var(--color-blanco);
+  }
+
+  .boton--primario:hover {
     background-color: var(--color-agua-800);
     border-color: var(--color-agua-800);
   }
 
   .boton--secundario {
     background-color: transparent;
-    color: var(--color-azul-900);
+    border-color: var(--filete-fuerte);
+    color: var(--tinta);
   }
 
   .boton--secundario:hover {
-    background-color: color-mix(in srgb, var(--color-agua-400) 25%, transparent);
+    border-color: var(--color-agua-800);
+    color: var(--color-agua-800);
+  }
+
+  /* Sobre azul marino */
+  :global(.banda-oscura) .boton--primario {
+    background-color: var(--color-oro);
+    border-color: var(--color-oro);
+    color: var(--color-azul-900);
+  }
+
+  :global(.banda-oscura) .boton--primario:hover {
+    background-color: var(--color-oro-claro);
+    border-color: var(--color-oro-claro);
+  }
+
+  :global(.banda-oscura) .boton--secundario {
+    border-color: var(--filete-oro);
+    color: var(--color-blanco);
+  }
+
+  :global(.banda-oscura) .boton--secundario:hover {
+    border-color: var(--color-oro);
+    color: var(--color-oro-claro);
   }
 </style>

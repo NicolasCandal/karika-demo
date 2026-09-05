@@ -1,42 +1,87 @@
 /* Estilos del CargadorMarca. Depende de src/estilos/tokens.css. */
 
-.cargador-marca {
+.cargador {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-azul-900);
-  opacity: 1;
-  transition: opacity var(--duracion-transicion) var(--easing-estandar);
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(
+      70% 55% at 50% 45%,
+      color-mix(in srgb, var(--color-agua-800) 26%, transparent),
+      transparent 70%
+    ),
+    var(--color-azul-900);
+  transition: opacity 420ms var(--easing-entrada);
 }
 
-.cargador-marca--saliendo {
+.cargador--saliendo {
   opacity: 0;
 }
 
-.cargador-marca__logo {
+.cargador__marca {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 7.5rem;
+  height: 7.5rem;
+}
+
+.cargador__aro {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+/* 2πr con r=57 ≈ 358 */
+.cargador__aro-trazo {
+  stroke: var(--color-oro);
+  stroke-width: 1;
+  stroke-dasharray: 358;
+  stroke-dashoffset: 358;
+  animation: cargador-aro var(--duracion-loader) var(--easing-entrada) forwards;
+}
+
+.cargador__emblema {
   width: 6rem;
   height: 6rem;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.94);
+  animation: cargador-emblema calc(var(--duracion-loader) * 0.7) var(--easing-entrada) forwards;
 }
 
-.cargador-marca__trazo {
-  stroke: var(--color-agua-400);
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: trazo-logo var(--duracion-loader) var(--easing-estandar) forwards;
-}
-
-@keyframes trazo-logo {
+@keyframes cargador-aro {
   to {
     stroke-dashoffset: 0;
   }
 }
 
+@keyframes cargador-emblema {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Mientras el loader está arriba, el fondo no debe poder desplazarse. */
+html.cargando,
+html.cargando body {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .cargador-marca__trazo {
+  .cargador__aro-trazo {
     animation: none;
     stroke-dashoffset: 0;
+  }
+
+  .cargador__emblema {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

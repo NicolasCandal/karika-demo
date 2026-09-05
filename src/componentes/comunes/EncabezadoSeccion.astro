@@ -1,0 +1,58 @@
+---
+// Encabezado de sección: etiqueta breve, titular en Bodoni versalita y
+// bajada. Es el patrón que se repite en toda la página, así que vive en
+// un solo lugar y ninguna sección lo vuelve a componer a mano.
+//
+// La etiqueta va en caja baja, no en mayúsculas sostenidas: las
+// mayúsculas quedan reservadas al titular, que es donde el Bodoni luce.
+interface Props {
+  etiqueta?: string;
+  titulo: string;
+  bajada?: string;
+  nivel?: 1 | 2;
+}
+
+const { etiqueta, titulo, bajada, nivel = 2 } = Astro.props;
+const Etiqueta = `h${nivel}` as 'h1' | 'h2';
+---
+
+<header class="encabezado-seccion entrada">
+  {etiqueta && <p class="encabezado-seccion__etiqueta">{etiqueta}</p>}
+  <Etiqueta class="encabezado-seccion__titulo">{titulo}</Etiqueta>
+  {bajada && <p class="encabezado-seccion__bajada">{bajada}</p>}
+</header>
+
+<style>
+  .encabezado-seccion {
+    max-width: 44rem;
+    margin-bottom: var(--espacio-6);
+  }
+
+  .encabezado-seccion__etiqueta {
+    font-size: var(--texto-15);
+    color: var(--color-agua-800);
+    margin-bottom: var(--espacio-2);
+  }
+
+  :global(.banda-oscura) .encabezado-seccion__etiqueta {
+    color: var(--color-oro);
+  }
+
+  .encabezado-seccion__titulo {
+    font-size: var(--texto-46);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
+    text-wrap: balance;
+  }
+
+  .encabezado-seccion__bajada {
+    margin-top: var(--espacio-3);
+    max-width: var(--ancho-lectura);
+    color: var(--tinta-suave);
+    font-size: var(--texto-20);
+  }
+
+  :global(.banda-oscura) .encabezado-seccion__bajada {
+    color: var(--tinta-clara-tenue);
+  }
+</style>

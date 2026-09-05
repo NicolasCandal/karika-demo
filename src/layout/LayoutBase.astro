@@ -1,11 +1,17 @@
 ---
 // Layout de página única. `layout/` conserva su nombre en inglés por
 // excepción explícita de CLAUDE.md.
+//
+// El emblema del loader se optimiza acá con getImage() y se pasa como
+// string: una isla de Preact no puede usar <Image> de Astro.
+import { getImage } from 'astro:assets';
 import '../estilos/globales.css';
 import Encabezado from '../componentes/layout/Encabezado.astro';
 import MenuMovil from '../componentes/layout/MenuMovil.astro';
 import PieDePagina from '../componentes/layout/PieDePagina.astro';
+import EntradaAlScroll from '../componentes/comunes/EntradaAlScroll.astro';
 import { CargadorMarca } from '../componentes/marca/CargadorMarca.jsx';
+import emblema from '../activos/imagenes/marca/logo-karika.png';
 
 interface Props {
   titulo: string;
@@ -13,6 +19,7 @@ interface Props {
 }
 
 const { titulo, descripcion } = Astro.props;
+const logoLoader = await getImage({ src: emblema, width: 192, height: 192, format: 'webp' });
 ---
 
 <html lang="es-MX">
@@ -22,15 +29,34 @@ const { titulo, descripcion } = Astro.props;
     <meta name="description" content={descripcion} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Las fuentes son self-hosted y bloquean el texto del hero: conviene
+         pedirlas antes de que el CSS las descubra. -->
+    <link
+      rel="preload"
+      href="/fuentes/bodoni-moda-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fuentes/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <title>{titulo}</title>
   </head>
   <body>
-    <CargadorMarca client:load />
+    <CargadorMarca client:load logo={logoLoader.src} />
     <Encabezado />
     <MenuMovil />
     <main>
       <slot />
     </main>
     <PieDePagina />
+    <EntradaAlScroll />
   </body>
 </html>

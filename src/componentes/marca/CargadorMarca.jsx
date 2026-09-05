@@ -3,12 +3,18 @@
 // nada. Reglas (docs/brief.md, sección 5): solo la primera visita de la
 // sesión, corte forzado a 1.5s, el hero ya está renderizado detrás,
 // aria-hidden, y fundido simple si hay movimiento reducido.
+//
+// Ya no traza un monograma inventado: muestra el emblema real del cliente
+// y le dibuja alrededor un aro dorado con stroke-dasharray, que es el
+// único gesto de trazo que queda. El `src` llega optimizado desde
+// LayoutBase porque una isla de Preact no puede usar <Image> de Astro.
 import { useEffect, useState } from 'preact/hooks';
 import './cargador-marca.css';
 
 const CLAVE_SESION = 'karika-loader-visto';
+const CORTE_FORZADO = 1500;
 
-export function CargadorMarca() {
+export function CargadorMarca({ logo }) {
   const [visible, setVisible] = useState(false);
   const [saliendo, setSaliendo] = useState(false);
 
@@ -25,6 +31,7 @@ export function CargadorMarca() {
     if (yaVisto) return;
 
     setVisible(true);
+    document.documentElement.classList.add('cargando');
 
     try {
       window.sessionStorage.setItem(CLAVE_SESION, '1');
@@ -33,53 +40,36 @@ export function CargadorMarca() {
       // puede repetirse en navegaciones futuras, no es crítico.
     }
 
-    const prefiereMovimientoReducido = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-    const duracionTrazo = prefiereMovimientoReducido ? 0 : 900;
-    const corteForzado = 1500;
+    const prefiereQuieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const salida = prefiereQuieto ? 200 : 1100;
 
-    const salir = () => setSaliendo(true);
-    const ocultar = () => setVisible(false);
+    const irSaliendo = () => setSaliendo(true);
+    const ocultar = () => {
+      setVisible(false);
+      document.documentElement.classList.remove('cargando');
+    };
 
-    const temporizadorSalida = setTimeout(salir, Math.min(duracionTrazo + 200, corteForzado - 200));
-    const temporizadorCorte = setTimeout(salir, corteForzado - 200);
-    const temporizadorOculto = setTimeout(ocultar, corteForzado);
+    const temporizadores = [
+      setTimeout(irSaliendo, Math.min(salida, CORTE_FORZADO - 300)),
+      setTimeout(ocultar, CORTE_FORZADO),
+    ];
 
     return () => {
-      clearTimeout(temporizadorSalida);
-      clearTimeout(temporizadorCorte);
-      clearTimeout(temporizadorOculto);
+      temporizadores.forEach(clearTimeout);
+      document.documentElement.classList.remove('cargando');
     };
   }, []);
 
   if (!visible) return null;
 
   return (
-    <div
-      className={`cargador-marca${saliendo ? ' cargador-marca--saliendo' : ''}`}
-      aria-hidden="true"
-    >
-      <svg
-        className="cargador-marca__logo"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          className="cargador-marca__trazo"
-          cx="50"
-          cy="50"
-          r="42"
-          fill="none"
-          strokeWidth="3"
-        />
-        <path
-          className="cargador-marca__trazo"
-          d="M35 28 V72 M35 50 L65 28 M35 50 L65 72"
-          fill="none"
-          strokeWidth="3"
-        />
-      </svg>
+    <div className={`cargador${saliendo ? ' cargador--saliendo' : ''}`} aria-hidden="true">
+      <div className="cargador__marca">
+        <svg className="cargador__aro" viewBox="0 0 120 120">
+          <circle className="cargador__aro-trazo" cx="60" cy="60" r="57" fill="none" />
+        </svg>
+        {logo && <img className="cargador__emblema" src={logo} alt="" width="96" height="96" />}
+      </div>
     </div>
   );
 }

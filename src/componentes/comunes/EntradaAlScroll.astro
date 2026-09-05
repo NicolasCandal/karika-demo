@@ -1,0 +1,34 @@
+---
+// Activa la entrada al hacer scroll de todo lo que tenga `.entrada`.
+//
+// El estado oculto se agrega desde acá y no desde el CSS: si el JS no
+// corre, la página se ve completa igual. Cada bloque entra una sola vez y
+// después deja de observarse — no hay animación al volver a subir, que es
+// lo que vuelve mareante este recurso.
+//
+// Los estilos viven en src/estilos/globales.css (.entrada).
+---
+
+<script>
+  const bloques = document.querySelectorAll<HTMLElement>('.entrada');
+  const prefiereQuieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (bloques.length > 0 && !prefiereQuieto) {
+    bloques.forEach((bloque) => bloque.classList.add('entrada--pendiente'));
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (!entrada.isIntersecting) continue;
+          entrada.target.classList.remove('entrada--pendiente');
+          observador.unobserve(entrada.target);
+        }
+      },
+      // Se dispara un poco antes de que el bloque toque el borde inferior,
+      // para que llegue entrado y no entrando.
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.1 },
+    );
+
+    bloques.forEach((bloque) => observador.observe(bloque));
+  }
+</script>

@@ -1,81 +1,100 @@
 ---
-// Encabezado fijo con navegación de escritorio y el botón que abre
-// MenuMovil.astro. El toggle es JS plano (sin estado de React: no está en
-// la lista de islas de CLAUDE.md).
+// Encabezado fijo. Arranca transparente sobre el hero oscuro y toma
+// fondo claro recién cuando la página se desplaza, para no cortar la
+// imagen con una barra desde el primer momento.
 import Logo from '../marca/Logo.astro';
-import Contenedor from '../comunes/Contenedor.astro';
 import { enlacesNavegacion } from '../../datos/navegacion.js';
 ---
 
-<header class="encabezado">
-  <Contenedor etiqueta="div">
-    <div class="encabezado__fila">
-      <a href="#inicio" class="encabezado__marca" aria-label="Karika, inicio">
-        <Logo id="logo-encabezado" class="encabezado__logo" />
-        <span class="encabezado__nombre">Karika</span>
-      </a>
+<header class="encabezado" data-encabezado>
+  <div class="encabezado__interior">
+    <a href="#inicio" class="encabezado__marca" aria-label="Karika, ir al inicio">
+      <Logo tamano={40} decorativo />
+      <span class="encabezado__nombre">Karika</span>
+    </a>
 
-      <nav class="encabezado__nav" aria-label="Navegación principal">
-        <ul class="encabezado__lista">
-          {
-            enlacesNavegacion.map((enlace) => (
-              <li>
-                <a href={enlace.href}>{enlace.etiqueta}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+    <nav class="encabezado__nav" aria-label="Navegación principal">
+      <ul class="encabezado__lista">
+        {
+          enlacesNavegacion.map((enlace) => (
+            <li>
+              <a href={enlace.href}>{enlace.etiqueta}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
-      <button
-        type="button"
-        class="encabezado__boton-menu"
-        aria-expanded="false"
-        aria-controls="menu-movil"
-        data-abrir-menu
-      >
-        <span class="encabezado__boton-menu-texto">Menú</span>
-      </button>
-    </div>
-  </Contenedor>
+    <button
+      type="button"
+      class="encabezado__boton-menu"
+      aria-expanded="false"
+      aria-controls="menu-movil"
+      data-abrir-menu
+    >
+      Menú
+    </button>
+  </div>
 </header>
+
+<script>
+  const encabezado = document.querySelector<HTMLElement>('[data-encabezado]');
+
+  if (encabezado) {
+    const marcarDesplazado = () => {
+      encabezado.classList.toggle('encabezado--desplazado', window.scrollY > 24);
+    };
+
+    marcarDesplazado();
+    window.addEventListener('scroll', marcarDesplazado, { passive: true });
+  }
+</script>
 
 <style>
   .encabezado {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
-    background-color: color-mix(in srgb, var(--color-bruma) 92%, transparent);
-    backdrop-filter: blur(6px);
+    color: var(--tinta-clara);
+    transition:
+      background-color var(--duracion-transicion) var(--easing-estandar),
+      color var(--duracion-transicion) var(--easing-estandar),
+      border-color var(--duracion-transicion) var(--easing-estandar);
+    border-bottom: 1px solid transparent;
   }
 
-  .encabezado__fila {
+  .encabezado--desplazado {
+    background-color: color-mix(in srgb, var(--color-bruma) 88%, transparent);
+    backdrop-filter: blur(10px);
+    color: var(--tinta);
+    border-bottom-color: var(--filete);
+  }
+
+  .encabezado__interior {
+    width: 100%;
+    max-width: var(--ancho-contenido);
+    margin-inline: auto;
+    padding: var(--espacio-2) var(--canal);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: var(--espacio-2);
+    gap: var(--espacio-3);
   }
 
   .encabezado__marca {
     display: flex;
     align-items: center;
-    gap: var(--espacio-1);
+    gap: var(--espacio-2);
     text-decoration: none;
-    color: var(--color-azul-900);
-  }
-
-  .encabezado__logo {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .encabezado__logo :global(.logo-trazo) {
-    stroke: var(--color-azul-900);
   }
 
   .encabezado__nombre {
     font-family: var(--fuente-display);
-    font-size: var(--texto-cuerpo-grande);
+    font-size: var(--texto-20);
+    text-transform: uppercase;
+    letter-spacing: var(--interletra-display);
   }
 
   .encabezado__nav {
@@ -88,26 +107,30 @@ import { enlacesNavegacion } from '../../datos/navegacion.js';
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: var(--texto-cuerpo);
+    font-size: var(--texto-15);
   }
 
   .encabezado__lista a {
     text-decoration: none;
+    padding-block: var(--espacio-1);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duracion-transicion) var(--easing-estandar);
   }
 
   .encabezado__lista a:hover {
-    color: var(--color-agua-800);
+    border-bottom-color: currentColor;
   }
 
   .encabezado__boton-menu {
     background: none;
-    border: 1px solid var(--color-azul-900);
+    border: 1px solid currentColor;
     border-radius: var(--radio-chico);
     padding: var(--espacio-1) var(--espacio-2);
+    font-size: var(--texto-15);
     cursor: pointer;
   }
 
-  @media (min-width: 56rem) {
+  @media (min-width: 60rem) {
     .encabezado__nav {
       display: block;
     }
