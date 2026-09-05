@@ -59,26 +59,3 @@ for (const { destino, region, salida } of piezas) {
   await writeFile(destino, buffer);
   console.log(`${destino}  ${(buffer.length / 1024).toFixed(0)} KB`);
 }
-
-// Íconos de pestaña, derivados del mismo emblema. Sin esto la pestaña
-// muestra el logo por defecto de Astro, que en una demo para el cliente
-// canta bastante. A 32px el detalle del emblema se pierde, pero queda
-// leyéndose como marca dorada sobre azul, que es lo que importa.
-const iconos = [
-  { destino: 'public/icono-32.png', lado: 32 },
-  { destino: 'public/icono-180.png', lado: 180 },
-];
-
-for (const { destino, lado } of iconos) {
-  const buffer = await sharp('src/activos/imagenes/marca/logo-karika.png')
-    .resize(lado, lado)
-    // Los íconos de pestaña se ven sobre fondos claros y oscuros según el
-    // navegador, así que el círculo va sobre el azul de la marca en vez de
-    // quedar transparente.
-    .flatten({ background: { r: 10, g: 26, b: 47 } })
-    .png({ compressionLevel: 9 })
-    .toBuffer();
-
-  await writeFile(destino, buffer);
-  console.log(`${destino}  ${lado}x${lado}  ${(buffer.length / 1024).toFixed(1)} KB`);
-}
